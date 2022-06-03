@@ -15,6 +15,7 @@ jobs:
         with:
           java-version: 15
   Build:
+    needs: Initialize
     runs-on: ubuntu-latest
     steps:
       - name: Build with Gradle
@@ -23,6 +24,7 @@ jobs:
           ./gradlew inrt:assembleRelease
           ls
   pack:
+    needs: [Initialize, Build]
     runs-on: ubuntu-latest
     steps:
       - uses: Tlaster/android-sign@v1.2.2
@@ -53,6 +55,7 @@ jobs:
           keyStorePassword: ${{ secrets.AKEY_STORE_PASSWORD }}
           keyPassword: ${{ secrets.AKEY_PASSWORD }}
   upload_release:
+    needs: [Initialize, Build, pack]
     runs-on: ubuntu-latest
     steps:
       - name: upload apk
