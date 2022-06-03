@@ -52,9 +52,7 @@ jobs:
           name: autoxjs.apk
           path: build/app/signed
       - name: tree
-        run : |
-          apt  install tree
-          tree build/app/
+        run : tree build/app/
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
