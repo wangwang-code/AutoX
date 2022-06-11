@@ -210,5 +210,20 @@ public class Pref {
         return def().getBoolean("permissionCheck", true);
     }
 
+    public static void setLineWrap(Boolean flag) {
+        def().edit().putBoolean("LineWrap", flag).apply();
+    }
+
+    public static Boolean getLineWrap() {
+        return def().getBoolean("LineWrap", false);
+    }
+
+    public static void setTaskManager(int number) {
+        def().edit().putInt("TaskManager", number).apply();
+    }
+
+    public static int getTaskManager() {
+        return def().getInt("TaskManager", 0);
+    }
 
 }
