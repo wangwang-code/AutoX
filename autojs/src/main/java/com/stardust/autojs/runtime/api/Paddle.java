@@ -60,23 +60,13 @@ public class Paddle {
     }
 
     public String[] ocrText(ImageWrapper image, int cpuThreadNum, boolean useSlim) {
-        List<OcrResult> words_result = ocr(image, cpuThreadNum, useSlim);
-        String[] outputResult = new String[words_result.size()];
-        for (int i = 0; i < words_result.size(); i++) {
-            outputResult[i] = words_result.get(i).words;
-            Log.i("outputResult", outputResult[i].toString()); // show LOG in Logcat panel
-        }
-        return outputResult;
+        List<OcrResult> wordsResult = ocr(image, cpuThreadNum, useSlim);
+        return sortResult(wordsResult);
     }
 
     public String[] ocrText(ImageWrapper image, int cpuThreadNum, String myModelPath) {
-        List<OcrResult> words_result = ocr(image, cpuThreadNum, myModelPath);
-        String[] outputResult = new String[words_result.size()];
-        for (int i = 0; i < words_result.size(); i++) {
-            outputResult[i] = words_result.get(i).words;
-            Log.i("outputResult", outputResult[i].toString()); // show LOG in Logcat panel
-        }
-        return outputResult;
+        List<OcrResult> wordsResult = ocr(image, cpuThreadNum, myModelPath);
+        return sortResult(wordsResult);
     }
 
     public String[] ocrText(ImageWrapper image, int cpuThreadNum) {
@@ -90,4 +80,18 @@ public class Paddle {
     public void release() {
         mPredictor.releaseOcr();
     }
+<<<<<<< HEAD
 }
+=======
+
+    private String[] sortResult(List<OcrResult> src) {
+        String[] outputResult = new String[src.size()];
+        for (int i = 0; i < src.size(); i++) {
+            outputResult[i] = src.get(i).words;
+            Log.i("outputResult", outputResult[i].toString()); // show LOG in Logcat panel
+        }
+        return outputResult;
+    }
+
+}
+>>>>>>> 628668038a53f7a8db4235e0e104f340d5bf5c73
