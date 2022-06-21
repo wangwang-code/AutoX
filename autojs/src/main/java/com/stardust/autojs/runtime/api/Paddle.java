@@ -60,13 +60,23 @@ public class Paddle {
     }
 
     public String[] ocrText(ImageWrapper image, int cpuThreadNum, boolean useSlim) {
-        List<OcrResult> wordsResult = ocr(image, cpuThreadNum, useSlim);
-        return sortResult(wordsResult);
+        List<OcrResult> words_result = ocr(image, cpuThreadNum, useSlim);
+        String[] outputResult = new String[words_result.size()];
+        for (int i = 0; i < words_result.size(); i++) {
+            outputResult[i] = words_result.get(i).words;
+            Log.i("outputResult", outputResult[i].toString()); // show LOG in Logcat panel
+        }
+        return outputResult;
     }
 
     public String[] ocrText(ImageWrapper image, int cpuThreadNum, String myModelPath) {
-        List<OcrResult> wordsResult = ocr(image, cpuThreadNum, myModelPath);
-        return sortResult(wordsResult);
+        List<OcrResult> words_result = ocr(image, cpuThreadNum, myModelPath);
+        String[] outputResult = new String[words_result.size()];
+        for (int i = 0; i < words_result.size(); i++) {
+            outputResult[i] = words_result.get(i).words;
+            Log.i("outputResult", outputResult[i].toString()); // show LOG in Logcat panel
+        }
+        return outputResult;
     }
 
     public String[] ocrText(ImageWrapper image, int cpuThreadNum) {
