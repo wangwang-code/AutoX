@@ -80,18 +80,4 @@ public class Paddle {
     public void release() {
         mPredictor.releaseOcr();
     }
-<<<<<<< HEAD
 }
-=======
-
-    private String[] sortResult(List<OcrResult> src) {
-        String[] outputResult = new String[src.size()];
-        for (int i = 0; i < src.size(); i++) {
-            outputResult[i] = src.get(i).words;
-            Log.i("outputResult", outputResult[i].toString()); // show LOG in Logcat panel
-        }
-        return outputResult;
-    }
-
-}
->>>>>>> 628668038a53f7a8db4235e0e104f340d5bf5c73
