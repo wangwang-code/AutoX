@@ -29,7 +29,7 @@ ext {
             appVersionName: "6.1.8",
             devVersionCode: 618,
             devVersionName: "6.1.8",
-            target        : 29,
+            target        : 26,
             mini          : 21,
             compile       : 32,
             buildTool     : "32.0.0",
