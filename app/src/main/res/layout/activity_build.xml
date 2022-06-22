@@ -112,7 +112,6 @@
                                 android:layout_gravity="bottom"
                                 android:text="@string/text_select" />
                         </LinearLayout>
-
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
