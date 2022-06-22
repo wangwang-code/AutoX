@@ -35,7 +35,7 @@ ext {
             buildTool     : "32.0.0",
             Gradle        : "7.2",
             IDE           : "Android Studio Bumblebee | 2021.1.1",
-            JDK           : JavaVersion.VERSION_17,
+            JDK           : JavaVersion.VERSION_16,
             NDK           : "21.4.7075529",
             OS            : "windows10-x64",
     ]

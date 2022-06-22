@@ -13,7 +13,7 @@ jobs:
       - name: set up JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 17.0.2
+          java-version: 16.0.2
       - name: Build with Gradle
         run: |
           chmod 777 ./gradlew
