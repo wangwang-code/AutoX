@@ -52,8 +52,8 @@ android {
         disable 'ExtraTranslation'
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_16
+        targetCompatibility JavaVersion.VERSION_16
     }
     composeOptions {
         kotlinCompilerExtensionVersion '1.2.0-alpha08'
@@ -75,7 +75,7 @@ android {
         abi {
 
             // Enables building multiple APKs per ABI.
-            enable false
+            enable true
 
             // By default all ABIs are included, so use reset() and include to specify that we only
             // want APKs for x86 and x86_64.
@@ -85,24 +85,24 @@ android {
 
             // Specifies a list of ABIs that Gradle should create APKs for.
             // include 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
-            include 'arm64-v8a', 'x86'
+            include 'arm64-v8a'
 
             // Specifies that we do not want to also generate a universal APK that includes all ABIs.
-            universalApk true
+            universalApk false
         }
     }
     buildTypes {
         debug {
-            shrinkResources true
-            minifyEnabled true
+            shrinkResources false
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             if (propFile.exists()) {
                 signingConfig signingConfigs.release
             }
         }
         release {
-            shrinkResources true
-            minifyEnabled true
+            shrinkResources false
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             if (propFile.exists()) {
                 signingConfig signingConfigs.release
