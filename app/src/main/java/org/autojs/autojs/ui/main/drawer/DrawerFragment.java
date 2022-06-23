@@ -352,11 +352,9 @@ public class DrawerFragment extends androidx.fragment.app.Fragment {
                     Pref.setCode(code1);
                     String host1 = serverAddrInput.getText().toString().trim();
                     Pref.saveServerAddress(host1);
-                    String params = "iemi=" + getIMEI() + "&usercode=" + code1;
-                    DevPluginService.getInstance().connectToServer(host1, params)
+                    DevPluginService.getInstance().connectToServer(host1)
                             .subscribe(Observers.emptyConsumer(), this::onConnectException);
-                    VersionService.getInstance().deviceInfo(getIMEI(), "2").subscribe();
-                    //   Toast.makeText(getContext(),"正在连接...",Toast.LENGTH_SHORT).show();
+                       Toast.makeText(getContext(),"正在连接...",Toast.LENGTH_SHORT).show();
 
                 }).show();
 
@@ -378,21 +376,6 @@ public class DrawerFragment extends androidx.fragment.app.Fragment {
         }
     }
 
-    @SuppressLint("MissingPermission")
-    private String getIMEI() {
-        if (!checkPermission()) {
-            return "错误数据";
-        }
-        String deviceId = null;
-        TelephonyManager tm = (TelephonyManager) getActivity().getApplication().getSystemService(TELEPHONY_SERVICE);
-        deviceId = tm.getDeviceId();
-        if (TextUtils.isEmpty(deviceId)) {
-            deviceId = Settings.System.getString(
-                    getActivity().getApplication().getContentResolver(), Settings.Secure.ANDROID_ID);
-        }
-        return deviceId;
-    }
-
     private boolean checkPermission() {
         int permissionCheck = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_PHONE_STATE);
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
@@ -405,18 +388,12 @@ public class DrawerFragment extends androidx.fragment.app.Fragment {
     private void inputRemoteHost() {
         String host = Pref.getServerAddressOrDefault(WifiTool.getRouterIp(getActivity()));
         String code = Pref.getCode("2");
-        String params = "iemi=" + getIMEI() + "&usercode=" + code;
         new MaterialDialog.Builder(getActivity())
                 .title(R.string.text_server_address)
                 .input("", host, (dialog, input) -> {
-                    try {
-                        DevPluginService.getInstance().connectToServer(input.toString(), params)
-                                .subscribe(Observers.emptyConsumer(), this::onConnectException);
-                    } catch (Exception exception) {
-                        GlobalAppContext.toast(R.string.text_server_address_error);
-                    }
                     Pref.saveServerAddress(input.toString());
-                    VersionService.getInstance().deviceInfo(getIMEI(), "2").subscribe();
+                    DevPluginService.getInstance().connectToServer(input.toString())
+                            .subscribe(Observers.emptyConsumer(), this::onConnectException);
                 })
                 .neutralText(R.string.text_help)
                 .onNeutral((dialog, which) -> {
