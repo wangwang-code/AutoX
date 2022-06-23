@@ -4,9 +4,11 @@ import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+
 import androidx.annotation.AnyThread;
 import androidx.annotation.MainThread;
 import androidx.annotation.WorkerThread;
+
 import android.util.Log;
 import android.util.Pair;
 
@@ -115,7 +117,7 @@ public class DevPluginService {
     }
 
     @AnyThread
-    public Observable<JsonWebSocket> connectToServer(String host,String params) {
+    public Observable<JsonWebSocket> connectToServer(String host) {
         int port = PORT;
         String ip = host;
         int i = host.lastIndexOf(':');
@@ -125,13 +127,13 @@ public class DevPluginService {
         }
         mConnectionState.onNext(new State(State.CONNECTING));
 
-        return socket(ip, port,params)
+        return socket(ip, port)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError(this::onSocketError);
     }
 
     @AnyThread
-    private Observable<JsonWebSocket> socket(String ip, int port,String params) {
+    private Observable<JsonWebSocket> socket(String ip, int port) {
         OkHttpClient client = new OkHttpClient.Builder()
                 .readTimeout(0, TimeUnit.MILLISECONDS)
                 .build();
@@ -139,16 +141,16 @@ public class DevPluginService {
         if (!url.startsWith("ws://") && !url.startsWith("wss://")) {
             url = "ws://" + url;
         }
-        url=url+"?"+params;
         return Observable.just(new JsonWebSocket(client, new Request.Builder()
-                .url(url)
-                .build()))
+                        .url(url)
+                        .build()))
                 .doOnNext(socket -> {
                     mSocket = socket;
                     subscribeMessage(socket);
                     sayHelloToServer(socket);
                 });
     }
+
 
     @SuppressLint("CheckResult")
     private void subscribeMessage(JsonWebSocket socket) {
@@ -251,17 +253,17 @@ public class DevPluginService {
     @MainThread
     private void onServerHello(JsonWebSocket jsonWebSocket, JsonObject message) {
         Log.i(LOG_TAG, "onServerHello: " + message);
-        String msg= "请在服务器端查看消息";
+        String msg = "请在服务器端查看消息";
         try {
             msg = message.get("data").getAsString();
-            if(!"连接成功".equals(msg)){
+            if (!"连接成功".equals(msg)) {
                 disconnectIfNeeded();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         mSocket = jsonWebSocket;
-        mConnectionState.onNext(new State(State.CONNECTED,new SocketTimeoutException(msg)));
+        mConnectionState.onNext(new State(State.CONNECTED, new SocketTimeoutException(msg)));
     }
 
     @AnyThread
