@@ -25,10 +25,10 @@ buildscript {
 
 ext {
     versions = [
-            appVersionCode: 618,
-            appVersionName: "6.1.8",
+            appVersionCode: 619,
+            appVersionName: "6.1.9",
             devVersionCode: 618,
-            devVersionName: "6.1.8",
+            devVersionName: "6.1.9",
             target        : 32,
             mini          : 21,
             compile       : 32,
