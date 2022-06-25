@@ -115,9 +115,9 @@ public class MainActivity extends BaseActivity implements OnActivityResultDelega
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         checkPermissions();
-        showAccessibilitySettingPromptIfDisabled();
+//        showAccessibilitySettingPromptIfDisabled();
         //mVersionGuard = new VersionGuard(this);
-        showAnnunciationIfNeeded();
+//        showAnnunciationIfNeeded();
         EventBus.getDefault().register(this);
         applyDayNightMode();
         if (Pref.getWebData().contains("isTbs")) {
