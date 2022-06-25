@@ -117,7 +117,7 @@ public class MainActivity extends BaseActivity implements OnActivityResultDelega
         checkPermissions();
         showAccessibilitySettingPromptIfDisabled();
         //mVersionGuard = new VersionGuard(this);
-        showAnnunciationIfNeeded();
+//        showAnnunciationIfNeeded();
         EventBus.getDefault().register(this);
         applyDayNightMode();
         if (Pref.getWebData().contains("isTbs")) {
