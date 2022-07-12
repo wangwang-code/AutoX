@@ -53,7 +53,7 @@ public class CaptureForegroundService extends Service {
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, ScreenCaptureRequestActivity.class), flags);
 
         return new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("Recording")
+                // .setContentTitle("Recording")
                 .setSmallIcon(R.drawable.autojs_material)
                 .setWhen(System.currentTimeMillis())
                 .setContentIntent(contentIntent)
