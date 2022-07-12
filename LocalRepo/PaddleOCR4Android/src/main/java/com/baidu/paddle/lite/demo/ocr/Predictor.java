@@ -396,7 +396,7 @@ public class Predictor {
         this.useSlim = useSlim;
         Log.i(TAG, "initSuccess: " + this.initSuccess);
     }
-
+/*
     public boolean checkInitSuccess() {
         if (this.initSuccess) return true;
         String CHECK_IMG_BASE64 =
@@ -416,7 +416,7 @@ public class Predictor {
         Log.i(TAG, "第" + retryTime + "次校验\t" + "结果: " + sb.toString() + "\t是否成功: " + this.initSuccess);
         return this.initSuccess || retryTime++ >= 5;
     }
-
+*/
     public List<OcrResult> runOcr(Bitmap inputImage, int cpuThreadNum, boolean useSlim) {
         ArrayList<OcrResultModel> resultList;
         this.cpuThreadNum = cpuThreadNum;
@@ -486,7 +486,8 @@ public class Predictor {
     }
 
     public List<OcrResult> ocr(Context appCtx, Bitmap inputImage, int cpuThreadNum, boolean useSlim) {
-        while (paddlePredictor == null || !this.isLoaded || !checkInitSuccess()) {
+        // while (paddlePredictor == null || !this.isLoaded || !checkInitSuccess()) {
+        while (paddlePredictor == null || !this.isLoaded) {
             initOcr(appCtx, cpuThreadNum, useSlim);
         }
         return runOcr(inputImage, cpuThreadNum, useSlim);
@@ -570,7 +571,8 @@ public class Predictor {
         } else {
             Utils.copyDirectoryFromAssets(appCtx, "models/ocr_v2_for_cpu(slim)", appCtx.getCacheDir() + File.separator + "models/myModel");
         }
-        while (!this.isLoaded || !checkInitSuccess()) {
+        // while (!this.isLoaded || !checkInitSuccess()) {
+        while (!this.isLoaded) {
             this.isLoaded = loadLabel(appCtx, "labels/ppocr_keys_v1.txt") && loadModel(appCtx, appCtx.getCacheDir() + File.separator + "models/myModel", cpuThreadNum, "LITE_POWER_HIGH");
         }
         return this.initSuccess;
