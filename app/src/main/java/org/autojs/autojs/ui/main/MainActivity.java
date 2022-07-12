@@ -41,7 +41,6 @@ import com.stardust.pio.PFiles;
 import com.stardust.theme.ThemeColorManager;
 import com.stardust.util.BackPressedHandler;
 import com.stardust.util.DrawerAutoClose;
-import com.tencent.smtt.sdk.QbSdk;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -91,9 +90,6 @@ public class MainActivity extends BaseActivity implements OnActivityResultDelega
     @ViewById(R.id.fab)
     FloatingActionButton mFab;
 
-    @ViewById(R.id.navigation_view_right)
-    NavigationView rightDrawer;
-
     private static final Pattern SERVICE_PATTERN = Pattern.compile("^(((\\w+\\.)+\\w+)[/]?){2}$");
 
     private FragmentPagerAdapterBuilder.StoredFragmentPagerAdapter mPagerAdapter;
@@ -126,23 +122,6 @@ public class MainActivity extends BaseActivity implements OnActivityResultDelega
             mWebData = new WebData();
             Pref.setWebData(gson.toJson(mWebData));
         }
-        if (mWebData.isTbs) {
-            QbSdk.initX5Environment(this, new QbSdk.PreInitCallback() {
-                @Override
-                public void onCoreInitFinished() {
-                    // 内核初始化完成，可能为系统内核，也可能为系统内核
-                }
-
-                /**
-                 * 预初始化结束
-                 * 由于X5内核体积较大，需要依赖网络动态下发，所以当内核不存在的时候，默认会回调false，此时将会使用系统内核代替
-                 * @param isX5 是否使用X5内核
-                 */
-                @Override
-                public void onViewInitFinished(boolean isX5) {
-                }
-            });
-        }
     }
 
     @SuppressLint("RestrictedApi")
@@ -160,189 +139,6 @@ public class MainActivity extends BaseActivity implements OnActivityResultDelega
             public void onDrawerOpened(View drawerView) {
                 EventBus.getDefault().post(DrawerOpenEvent.SINGLETON);
             }
-        });
-        rightDrawer.setNavigationItemSelectedListener(menuItem -> {
-            if (Pref.getWebData().contains("isTbs")) {
-                mWebData = gson.fromJson(Pref.getWebData(), WebData.class);
-            } else {
-                mWebData = new WebData();
-                Pref.setWebData(gson.toJson(mWebData));
-            }
-            switch (menuItem.getItemId()) {
-                case R.id.ali_exit:
-                    exitCompletely();
-                    break;
-                case R.id.ali_settings:
-                    startActivity(new Intent(this, SettingsActivity_.class));
-                    break;
-                case R.id.file_manager_permission:
-                    if (Build.VERSION.SDK_INT >= 30) {
-                        new MaterialDialog.Builder(this)
-                                .title("所有文件访问权限")
-                                .content("在Android 11+ 的系统中，读写非应用目录外文件需要授予“所有文件访问权限”（右侧侧滑菜单中设置），部分设备授予后可能出现文件读写异常，建议仅在无法读写文件时授予。请选择是否授予该权限：")
-                                .positiveText("前往授权")
-                                .negativeText("取消")
-                                .onPositive((dialog, which) -> {
-                                    dialog.dismiss();
-                                    Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                                    intent.setData(Uri.parse("package:" + this.getPackageName()));
-                                    startActivity(intent);
-                                    dialog.dismiss();
-                                })
-                                .show();
-                    } else {
-                        Toast.makeText(this, "Android 10 及以下系统无需设置该项", Toast.LENGTH_LONG).show();
-                    }
-                    break;
-                case R.id.switch_fullscreen:
-                    if (mAppBarLayout.getVisibility() != View.GONE) {
-                        mTabLayout.setVisibility(View.GONE);
-                        mAppBarLayout.setVisibility(View.GONE);
-                        mFab.hide();
-                        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                        getWindow().getDecorView().setSystemUiVisibility(
-                                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                                        | View.SYSTEM_UI_FLAG_FULLSCREEN
-                                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
-                    } else {
-                        mTabLayout.setVisibility(View.VISIBLE);
-                        mAppBarLayout.setVisibility(View.VISIBLE);
-                        mFab.show();
-                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
-                    }
-                    break;
-                case R.id.switch_line_wrap:
-                    Pref.setLineWrap(!Pref.getLineWrap());
-                    if (Pref.getLineWrap()) {
-                        Toast.makeText(this, "已打开编辑器自动换行，重启编辑器后生效！", Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(this, "已关闭编辑器自动换行，重启编辑器后生效！", Toast.LENGTH_LONG).show();
-                    }
-                    break;
-                case R.id.switch_task_manager:
-                    String[] taskManagerList = new String[]{"WorkManager", "AndroidJob", "AlarmManager"};
-                    new MaterialDialog.Builder(this)
-                            .title("请选择定时任务调度器：")
-                            .negativeText("取消")
-                            .items(taskManagerList)
-                            .itemsCallback(new MaterialDialog.ListCallback() {
-                                @Override
-                                public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
-                                    Pref.setTaskManager(which);
-                                    Toast.makeText(getApplicationContext(), "定时任务调度器已切换为：" + taskManagerList[which] + "，重启APP后生效！", Toast.LENGTH_LONG).show();
-                                    AutoJs.getInstance().debugInfo("切换任务调度模式为：" + taskManagerList[which] + "，重启APP后生效！");
-                                    dialog.dismiss();
-                                }
-                            })
-                            .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                @Override
-                                public void onClick(MaterialDialog dialog, DialogAction which) {
-                                    if (Objects.requireNonNull(dialog.getSelectedIndices()).length >= mWebData.bookmarks.length) {
-                                        mWebData.bookmarks = new String[]{};
-                                        mWebData.bookmarkLabels = new String[]{};
-                                        Pref.setWebData(gson.toJson(mWebData));
-                                    } else if (Objects.requireNonNull(dialog.getSelectedIndices()).length > 0) {
-                                        String[] strList = new String[mWebData.bookmarks.length - dialog.getSelectedIndices().length];
-                                        String[] strLabelList = new String[mWebData.bookmarks.length - dialog.getSelectedIndices().length];
-                                        int j = 0;
-                                        for (int i = 0; i < mWebData.bookmarks.length; i++) {
-                                            boolean flag = true;
-                                            for (Integer index : dialog.getSelectedIndices()) {
-                                                if (i == index) {
-                                                    flag = false;
-                                                    break;
-                                                }
-                                            }
-                                            if (flag) {
-                                                strList[j] = mWebData.bookmarks[i];
-                                                strLabelList[j] = mWebData.bookmarkLabels[i];
-                                                j += 1;
-                                            }
-                                        }
-                                        mWebData.bookmarks = strList;
-                                        mWebData.bookmarkLabels = strLabelList;
-                                        Pref.setWebData(gson.toJson(mWebData));
-                                    }
-                                    dialog.dismiss();
-                                }
-                            })
-                            .show();
-                    TimedTaskScheduler.ensureCheckTaskWorks(this);
-                    break;
-                case R.id.web_bookmarks:
-                    new MaterialDialog.Builder(this)
-                            .title("请选择书签：")
-                            .positiveText("删除(多选)")
-                            .negativeText("取消")
-                            .items(mWebData.bookmarkLabels)
-                            .itemsCallbackMultiChoice(null, new MaterialDialog.ListCallbackMultiChoice() {
-                                @Override
-                                public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
-                                    return true;
-                                }
-                            })
-                            .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                @Override
-                                public void onClick(MaterialDialog dialog, DialogAction which) {
-                                    if (Objects.requireNonNull(dialog.getSelectedIndices()).length >= mWebData.bookmarks.length) {
-                                        mWebData.bookmarks = new String[]{};
-                                        mWebData.bookmarkLabels = new String[]{};
-                                        Pref.setWebData(gson.toJson(mWebData));
-                                    } else if (Objects.requireNonNull(dialog.getSelectedIndices()).length > 0) {
-                                        String[] strList = new String[mWebData.bookmarks.length - dialog.getSelectedIndices().length];
-                                        String[] strLabelList = new String[mWebData.bookmarks.length - dialog.getSelectedIndices().length];
-                                        int j = 0;
-                                        for (int i = 0; i < mWebData.bookmarks.length; i++) {
-                                            boolean flag = true;
-                                            for (Integer index : dialog.getSelectedIndices()) {
-                                                if (i == index) {
-                                                    flag = false;
-                                                    break;
-                                                }
-                                            }
-                                            if (flag) {
-                                                strList[j] = mWebData.bookmarks[i];
-                                                strLabelList[j] = mWebData.bookmarkLabels[i];
-                                                j += 1;
-                                            }
-                                        }
-                                        mWebData.bookmarks = strList;
-                                        mWebData.bookmarkLabels = strLabelList;
-                                        Pref.setWebData(gson.toJson(mWebData));
-                                    }
-                                    dialog.dismiss();
-                                }
-                            })
-                            .show();
-                    break;
-                case R.id.web_kernel:
-                    mWebData.isTbs = !mWebData.isTbs;
-                    Pref.setWebData(gson.toJson(mWebData));
-                    if (mWebData.isTbs) {
-                        Toast.makeText(this, "默认Web内核已切换为：TBS WebView，重启APP后生效！", Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(this, "默认Web内核已切换为：系统 WebView，重启APP后生效！", Toast.LENGTH_LONG).show();
-                    }
-                    break;
-                case R.id.web_ua:
-                    new MaterialDialog.Builder(this)
-                            .title("请选择默认的User-Agent：")
-                            .negativeText("取消")
-                            .items(mWebData.userAgentLabels)
-                            .itemsCallback(new MaterialDialog.ListCallback() {
-                                @Override
-                                public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                                    mWebData.userAgent = mWebData.userAgents[which];
-                                    Pref.setWebData(gson.toJson(mWebData));
-                                    dialog.dismiss();
-                                }
-                            })
-                            .show();
-                    break;
-            }
-            return false;
         });
     }
 
@@ -559,33 +355,208 @@ public class MainActivity extends BaseActivity implements OnActivityResultDelega
 
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_log) {
-            if (mDocsSearchItemExpanded) {
-                submitForwardQuery();
-            } else {
-                LogActivity_.intent(this).start();
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        mWebData = new WebData();
+        Pref.setWebData(gson.toJson(mWebData));
+        switch (menuItem.getItemId()) {
+            case R.id.action_log: {
+                if (mDocsSearchItemExpanded) {
+                    submitForwardQuery();
+                } else {
+                    LogActivity_.intent(this).start();
+                }
+                return true;
             }
-            return true;
-        } else if (item.getItemId() == R.id.action_fullscreen) {
-            if (((getWindow().getDecorView().getWindowSystemUiVisibility() & View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN) == 0) | ((getWindow().getDecorView().getWindowSystemUiVisibility() & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0)) {
-                mTabLayout.setVisibility(View.GONE);
-                getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LOW_PROFILE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
-            } else {
-                mTabLayout.setVisibility(View.VISIBLE);
-                mAppBarLayout.setVisibility(View.VISIBLE);
-                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+            case R.id.action_fullscreen: {
+                if (((getWindow().getDecorView().getWindowSystemUiVisibility() & View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN) == 0) | ((getWindow().getDecorView().getWindowSystemUiVisibility() & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0)) {
+                    mTabLayout.setVisibility(View.GONE);
+                    getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LOW_PROFILE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE);
+                } else {
+                    mTabLayout.setVisibility(View.VISIBLE);
+                    mAppBarLayout.setVisibility(View.VISIBLE);
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+                }
             }
-        } else if (item.getItemId() == R.id.action_drawer_right) {
-            mDrawerLayout.openDrawer(rightDrawer);
+            case R.id.ali_exit:
+                exitCompletely();
+                break;
+            case R.id.ali_settings:
+                startActivity(new Intent(this, SettingsActivity_.class));
+                break;
+            case R.id.file_manager_permission:
+                if (Build.VERSION.SDK_INT >= 30) {
+                    new MaterialDialog.Builder(this)
+                            .title("所有文件访问权限")
+                            .content("在Android 11+ 的系统中，读写非应用目录外文件需要授予“所有文件访问权限”（右侧侧滑菜单中设置），部分设备授予后可能出现文件读写异常，建议仅在无法读写文件时授予。请选择是否授予该权限：")
+                            .positiveText("前往授权")
+                            .negativeText("取消")
+                            .onPositive((dialog, which) -> {
+                                dialog.dismiss();
+                                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                                intent.setData(Uri.parse("package:" + this.getPackageName()));
+                                startActivity(intent);
+                                dialog.dismiss();
+                            })
+                            .show();
+                } else {
+                    Toast.makeText(this, "Android 10 及以下系统无需设置该项", Toast.LENGTH_LONG).show();
+                }
+                break;
+            case R.id.switch_fullscreen:
+                if (mAppBarLayout.getVisibility() != View.GONE) {
+                    mTabLayout.setVisibility(View.GONE);
+                    mAppBarLayout.setVisibility(View.GONE);
+                    mFab.hide();
+                    getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                    getWindow().getDecorView().setSystemUiVisibility(
+                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                                    | View.SYSTEM_UI_FLAG_FULLSCREEN
+                                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                                    | View.SYSTEM_UI_FLAG_IMMERSIVE);
+                } else {
+                    mTabLayout.setVisibility(View.VISIBLE);
+                    mAppBarLayout.setVisibility(View.VISIBLE);
+                    mFab.show();
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+                }
+                break;
+            case R.id.switch_line_wrap:
+                Pref.setLineWrap(!Pref.getLineWrap());
+                if (Pref.getLineWrap()) {
+                    Toast.makeText(this, "已打开编辑器自动换行，重启编辑器后生效！", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(this, "已关闭编辑器自动换行，重启编辑器后生效！", Toast.LENGTH_LONG).show();
+                }
+                break;
+            case R.id.switch_task_manager:
+                String[] taskManagerList = new String[]{"WorkManager", "AndroidJob", "AlarmManager"};
+                new MaterialDialog.Builder(this)
+                        .title("请选择定时任务调度器：")
+                        .negativeText("取消")
+                        .items(taskManagerList)
+                        .itemsCallback(new MaterialDialog.ListCallback() {
+                            @Override
+                            public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+                                Pref.setTaskManager(which);
+                                Toast.makeText(getApplicationContext(), "定时任务调度器已切换为：" + taskManagerList[which] + "，重启APP后生效！", Toast.LENGTH_LONG).show();
+                                AutoJs.getInstance().debugInfo("切换任务调度模式为：" + taskManagerList[which] + "，重启APP后生效！");
+                                dialog.dismiss();
+                            }
+                        })
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(MaterialDialog dialog, DialogAction which) {
+                                if (Objects.requireNonNull(dialog.getSelectedIndices()).length >= mWebData.bookmarks.length) {
+                                    mWebData.bookmarks = new String[]{};
+                                    mWebData.bookmarkLabels = new String[]{};
+                                    Pref.setWebData(gson.toJson(mWebData));
+                                } else if (Objects.requireNonNull(dialog.getSelectedIndices()).length > 0) {
+                                    String[] strList = new String[mWebData.bookmarks.length - dialog.getSelectedIndices().length];
+                                    String[] strLabelList = new String[mWebData.bookmarks.length - dialog.getSelectedIndices().length];
+                                    int j = 0;
+                                    for (int i = 0; i < mWebData.bookmarks.length; i++) {
+                                        boolean flag = true;
+                                        for (Integer index : dialog.getSelectedIndices()) {
+                                            if (i == index) {
+                                                flag = false;
+                                                break;
+                                            }
+                                        }
+                                        if (flag) {
+                                            strList[j] = mWebData.bookmarks[i];
+                                            strLabelList[j] = mWebData.bookmarkLabels[i];
+                                            j += 1;
+                                        }
+                                    }
+                                    mWebData.bookmarks = strList;
+                                    mWebData.bookmarkLabels = strLabelList;
+                                    Pref.setWebData(gson.toJson(mWebData));
+                                }
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
+                TimedTaskScheduler.ensureCheckTaskWorks(this);
+                break;
+            case R.id.web_bookmarks:
+                new MaterialDialog.Builder(this)
+                        .title("请选择书签：")
+                        .positiveText("删除(多选)")
+                        .negativeText("取消")
+                        .items(mWebData.bookmarkLabels)
+                        .itemsCallbackMultiChoice(null, new MaterialDialog.ListCallbackMultiChoice() {
+                            @Override
+                            public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+                                return true;
+                            }
+                        })
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(MaterialDialog dialog, DialogAction which) {
+                                if (Objects.requireNonNull(dialog.getSelectedIndices()).length >= mWebData.bookmarks.length) {
+                                    mWebData.bookmarks = new String[]{};
+                                    mWebData.bookmarkLabels = new String[]{};
+                                    Pref.setWebData(gson.toJson(mWebData));
+                                } else if (Objects.requireNonNull(dialog.getSelectedIndices()).length > 0) {
+                                    String[] strList = new String[mWebData.bookmarks.length - dialog.getSelectedIndices().length];
+                                    String[] strLabelList = new String[mWebData.bookmarks.length - dialog.getSelectedIndices().length];
+                                    int j = 0;
+                                    for (int i = 0; i < mWebData.bookmarks.length; i++) {
+                                        boolean flag = true;
+                                        for (Integer index : dialog.getSelectedIndices()) {
+                                            if (i == index) {
+                                                flag = false;
+                                                break;
+                                            }
+                                        }
+                                        if (flag) {
+                                            strList[j] = mWebData.bookmarks[i];
+                                            strLabelList[j] = mWebData.bookmarkLabels[i];
+                                            j += 1;
+                                        }
+                                    }
+                                    mWebData.bookmarks = strList;
+                                    mWebData.bookmarkLabels = strLabelList;
+                                    Pref.setWebData(gson.toJson(mWebData));
+                                }
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
+                break;
+            case R.id.web_kernel:
+                mWebData.isTbs = !mWebData.isTbs;
+                Pref.setWebData(gson.toJson(mWebData));
+                if (mWebData.isTbs) {
+                    Toast.makeText(this, "默认Web内核已切换为：TBS WebView，重启APP后生效！", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(this, "默认Web内核已切换为：系统 WebView，重启APP后生效！", Toast.LENGTH_LONG).show();
+                }
+                break;
+            case R.id.web_ua:
+                new MaterialDialog.Builder(this)
+                        .title("请选择默认的User-Agent：")
+                        .negativeText("取消")
+                        .items(mWebData.userAgentLabels)
+                        .itemsCallback(new MaterialDialog.ListCallback() {
+                            @Override
+                            public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                                mWebData.userAgent = mWebData.userAgents[which];
+                                Pref.setWebData(gson.toJson(mWebData));
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
+                break;
         }
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(menuItem);
     }
 
     @Subscribe

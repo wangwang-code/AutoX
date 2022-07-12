@@ -18,38 +18,36 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="36dp"
-            android:layout_alignParentTop="true"
+            android:layout_height="wrap_content"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
             android:theme="@style/AppTheme.AppBarOverlay">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:theme="@style/ToolBarStyle"
+                android:title="@string/app_name"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
-        </com.google.android.material.appbar.AppBarLayout>
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab"
-            android:layout_width="match_parent"
-            android:layout_height="36dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/colorPrimary"
-            android:padding="0dp"
-            app:tabGravity="fill"
-            app:tabIndicatorColor="@color/tab_indicator"
-            app:tabMode="scrollable"
-            app:tabSelectedTextColor="@color/tab_indicator"
-            app:tabTextColor="@color/tab_text" />
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tab"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                app:tabGravity="fill"
+                app:tabIndicatorColor="@color/tab_indicator"
+                app:tabMode="scrollable"
+                app:tabSelectedTextColor="@color/tab_indicator"
+                app:tabTextColor="@color/tab_text" />
+        </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/app_bar"
-            android:layout_above="@id/tab"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
@@ -60,7 +58,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_gravity="end|center|bottom"
-            android:layout_marginEnd="2dp"
+            android:layout_marginEnd="30dp"
             android:layout_marginBottom="0dp"
             android:src="@drawable/ic_add_white_48dp"
             app:backgroundTint="@color/colorPrimary"
@@ -91,17 +89,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="false"
-        />
-
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navigation_view_right"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="end"
-        android:fitsSystemWindows="false"
-        app:headerLayout="@layout/drawer_header"
-        app:menu="@menu/menu_drawer_right" />
+        android:fitsSystemWindows="false" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
 

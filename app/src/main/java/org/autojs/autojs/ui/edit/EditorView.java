@@ -280,13 +280,8 @@ public class EditorView extends FrameLayout implements CodeCompletionBar.OnHintC
         setUpInputMethodEnhancedBar();
         setUpFunctionsKeyboard();
         setMenuItemStatus(R.id.save, false);
-        if (mDocsWebView.getIsTbs()) {
-            mDocsWebView.getWebViewTbs().getSettings().setDisplayZoomControls(true);
-            mDocsWebView.getWebViewTbs().loadUrl(Pref.getDocumentationUrl() + "index.html");
-        } else {
-            mDocsWebView.getWebView().getSettings().setDisplayZoomControls(true);
-            mDocsWebView.getWebView().loadUrl(Pref.getDocumentationUrl() + "index.html");
-        }
+        mDocsWebView.getWebView().getSettings().setDisplayZoomControls(true);
+        mDocsWebView.getWebView().loadUrl(Pref.getDocumentationUrl() + "index.html");
         Themes.getCurrent(getContext())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::setTheme);
@@ -358,18 +353,10 @@ public class EditorView extends FrameLayout implements CodeCompletionBar.OnHintC
 
     public boolean onBackPressed() {
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-            if (mDocsWebView.getIsTbs()) {
-                if (mDocsWebView.getWebViewTbs().canGoBack()) {
-                    mDocsWebView.getWebViewTbs().goBack();
-                } else {
-                    mDrawerLayout.closeDrawer(GravityCompat.START);
-                }
+            if (mDocsWebView.getWebView().canGoBack()) {
+                mDocsWebView.getWebView().goBack();
             } else {
-                if (mDocsWebView.getWebView().canGoBack()) {
-                    mDocsWebView.getWebView().goBack();
-                } else {
-                    mDrawerLayout.closeDrawer(GravityCompat.START);
-                }
+                mDrawerLayout.closeDrawer(GravityCompat.START);
             }
             return true;
         }
@@ -662,13 +649,8 @@ public class EditorView extends FrameLayout implements CodeCompletionBar.OnHintC
                 .title(title)
                 .url(absUrl)
                 .pinToLeft(v -> {
-                    if (mDocsWebView.getIsTbs()) {
-                        mDocsWebView.getWebViewTbs().loadUrl(absUrl);
-                        mDrawerLayout.openDrawer(GravityCompat.START);
-                    } else {
-                        mDocsWebView.getWebView().loadUrl(absUrl);
-                        mDrawerLayout.openDrawer(GravityCompat.START);
-                    }
+                    mDocsWebView.getWebView().loadUrl(absUrl);
+                    mDrawerLayout.openDrawer(GravityCompat.START);
                 })
                 .show();
     }

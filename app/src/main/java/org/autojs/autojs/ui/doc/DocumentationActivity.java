@@ -22,41 +22,24 @@ public class DocumentationActivity extends BaseActivity {
     EWebView mEWebView;
 
     WebView mWebView;
-    com.tencent.smtt.sdk.WebView mWebViewTbs;
 
     @AfterViews
     void setUpViews() {
         setToolbarAsBack(getString(R.string.text_tutorial));
-        if (mEWebView.getIsTbs()) {
-            mWebViewTbs = mEWebView.getWebViewTbs();
-        } else {
-            mWebView = mEWebView.getWebView();
-        }
+        mWebView = mEWebView.getWebView();
         String url = getIntent().getStringExtra(EXTRA_URL);
         if (url == null) {
             url = Pref.getDocumentationUrl() + "index.html";
         }
-        if (mEWebView.getIsTbs()) {
-            mWebViewTbs.loadUrl(url);
-        } else {
-            mWebView.loadUrl(url);
-        }
+        mWebView.loadUrl(url);
     }
 
     @Override
     public void onBackPressed() {
-        if (mEWebView.getIsTbs()) {
-            if (mWebViewTbs.canGoBack()) {
-                mWebViewTbs.goBack();
-            } else {
-                super.onBackPressed();
-            }
+        if (mWebView.canGoBack()) {
+            mWebView.goBack();
         } else {
-            if (mWebView.canGoBack()) {
-                mWebView.goBack();
-            } else {
-                super.onBackPressed();
-            }
+            super.onBackPressed();
         }
     }
 }

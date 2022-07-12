@@ -486,10 +486,16 @@ public class Predictor {
     }
 
     public List<OcrResult> ocr(Context appCtx, Bitmap inputImage, int cpuThreadNum, boolean useSlim) {
+<<<<<<< Updated upstream
         // while (paddlePredictor == null || !this.isLoaded || !checkInitSuccess()) {
         while (paddlePredictor == null || !this.isLoaded) {
             initOcr(appCtx, cpuThreadNum, useSlim);
         }
+=======
+//        while (paddlePredictor == null || !this.isLoaded || !checkInitSuccess()) {
+//            initOcr(appCtx, cpuThreadNum, useSlim);
+//        }
+>>>>>>> Stashed changes
         return runOcr(inputImage, cpuThreadNum, useSlim);
     }
 
