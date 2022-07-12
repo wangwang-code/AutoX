@@ -10,23 +10,15 @@
         android:title="@string/text_search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="always|collapseActionView" />
-
     <item
         android:id="@+id/action_log"
         android:icon="@drawable/ic_ali_log"
         android:title="@string/text_log"
         app:showAsAction="always" />
-
     <item
-        android:id="@+id/action_fullscreen"
-        android:icon="@drawable/ic_fullscreen_white"
-        android:title="@string/text_fullscreen"
-        app:showAsAction="always" />
-
-    <item
-        android:id="@+id/web_kernel"
-        android:icon="@drawable/ic_check_for_updates"
-        android:title="切换Web内核" />
+        android:id="@+id/ali_settings"
+        android:icon="@drawable/ic_ali_settings"
+        android:title="@string/text_setting" />
     <item
         android:id="@+id/web_bookmarks"
         android:icon="@drawable/ic_star"
@@ -35,10 +27,6 @@
         android:id="@+id/web_ua"
         android:icon="@drawable/ic_ua"
         android:title="UA设置" />
-    <item
-        android:id="@+id/switch_fullscreen"
-        android:icon="@drawable/ic_fullscreen"
-        android:title="@string/switch_fullscreen" />
     <item
         android:id="@+id/switch_task_manager"
         android:icon="@drawable/ic_track_changes_black_48dp"
@@ -51,10 +39,6 @@
         android:id="@+id/file_manager_permission"
         android:icon="@drawable/ic_floating_action_menu_file"
         android:title="@string/text_file_manager_permission" />
-    <item
-        android:id="@+id/ali_settings"
-        android:icon="@drawable/ic_ali_settings"
-        android:title="@string/text_setting" />
     <item
         android:id="@+id/ali_exit"
         android:icon="@drawable/ic_ali_exit"

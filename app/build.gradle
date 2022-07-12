@@ -293,10 +293,10 @@ dependencies {
     // Android job
     implementation 'com.evernote:android-job:1.4.2'
     // Optional, if you use support library fragments:
-    implementation project(':automator')
-    implementation project(':common')
-    implementation project(':autojs')
-    implementation project(':apkbuilder')
+    implementation project(':LocalRepo:automator')
+    implementation project(':LocalRepo:common')
+    implementation project(':LocalRepo:autojs')
+    implementation project(':LocalRepo:apkbuilder')
     implementation 'androidx.multidex:multidex:2.0.1'
 
     def lifecycle_version = "2.5.0-rc01"
