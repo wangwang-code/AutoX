@@ -208,9 +208,9 @@ dependencies {
     implementation 'com.github.SenhLinsh:Utils-Everywhere:3.0.0'
     implementation 'androidx.multidex:multidex:2.0.1'
     testImplementation 'junit:junit:4.13.2'
+    api project(':autojs')
     api fileTree('libs/dx.jar')
     api project(path: ':LocalRepo:RhinoJs')
     api project(':LocalRepo:automator')
     api project(':LocalRepo:common')
-    api project(':LocalRepo:autojs')
 }
