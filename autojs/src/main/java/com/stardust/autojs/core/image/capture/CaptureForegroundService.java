@@ -1,22 +1,15 @@
 package com.stardust.autojs.core.image.capture;
 
-import static android.app.PendingIntent.FLAG_IMMUTABLE;
-
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.core.app.NotificationCompat;
-
-import com.stardust.autojs.R;
 /**
  * by zhang_senlin https://blog.csdn.net/zhang_senlin/article/details/119481636
  */
@@ -29,6 +22,7 @@ public class CaptureForegroundService extends Service {
         return null;
     }
 
+    @SuppressLint("ObsoleteSdkInt")
     @Override
     public void onCreate() {
         super.onCreate();
