@@ -1,7 +1,5 @@
 # AutoX.Js+
 
-**本Fork可能会违反开源协议，即可能引入了侵犯版权的代码**
-
 ## 简介
 
 * 一个支持无障碍服务的Android平台上的JavaScript 运行环境 和 开发环境，其发展目标是类似JsBox和Workflow。
