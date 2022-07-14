@@ -101,7 +101,7 @@ class App : Application() {
         })
 
         //启动保活服务
-        KeepLive.useSilenceMusice = true;
+        KeepLive.useSilenceMusice = false;
         val sharedPreferences =
             PreferenceManager.getDefaultSharedPreferences(this)
         val keepRunningWithForegroundService = sharedPreferences.getBoolean(
