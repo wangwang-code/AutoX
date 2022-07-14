@@ -101,7 +101,7 @@ class App : Application() {
         })
 
         //启动保活服务
-        KeepLive.useSilenceMusice = false;
+        KeepLive.useSilenceMusice = true;
         val sharedPreferences =
             PreferenceManager.getDefaultSharedPreferences(this)
         val keepRunningWithForegroundService = sharedPreferences.getBoolean(
@@ -116,7 +116,7 @@ class App : Application() {
             { context, intent ->
                 Log.d(TAG, "foregroundNotificationClick: ");
                 val splashActivityintent = Intent(context, ScriptExecuteActivity::class.java)
-                splashActivityintent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+                splashActivityintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context!!.startActivity(splashActivityintent)
             }
             KeepLive.startWork(
