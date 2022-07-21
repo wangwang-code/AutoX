@@ -7,12 +7,12 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface GithubUpdateCheckApi {
-    @GET("/repos/kkevsekk1/AutoX/releases/latest")
+    @GET("/repos/wangwang-code/AutoX/releases/latest")
     suspend fun getGithubLastReleaseInfo(): GithubReleaseInfo
 
-    @GET("/repos/kkevsekk1/AutoX/releases/tags/{tag}")
+    @GET("/repos/wangwang-code/AutoX/releases/tags/{tag}")
     suspend fun getGithubLastReleaseInfo(@Path("tag") tag: String): Response<GithubReleaseInfo>
 
-    @GET("/repos/kkevsekk1/AutoX/releases")
+    @GET("/repos/wangwang-code/AutoX/releases")
     suspend fun getGithubReleaseInfoList(): GithubReleaseInfoList
 }

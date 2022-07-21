@@ -114,7 +114,7 @@ fun DrawerPage() {
             TextButton(onClick = {
                 IntentUtil.browse(
                     context,
-                    "https://github.com/kkevsekk1/AutoX"
+                    "https://github.com/wangwang-code/AutoX"
                 )
             }) {
                 Text(text = stringResource(R.string.text_project_link))
@@ -122,7 +122,7 @@ fun DrawerPage() {
             TextButton(onClick = {
                 IntentUtil.browse(
                     context,
-                    "https://github.com/kkevsekk1/AutoX/releases"
+                    "https://github.com/wangwang-code/AutoX/releases"
                 )
             }) {
                 Text(text = stringResource(R.string.text_app_download_link))
@@ -130,7 +130,7 @@ fun DrawerPage() {
             TextButton(onClick = {
                 IntentUtil.browse(
                     context,
-                    "https://github.com/kkevsekk1/AutoX/issues"
+                    "https://github.com/wangwang-code/AutoX/issues"
                 )
             }) {
                 Text(text = stringResource(R.string.text_issue_report))
@@ -228,7 +228,7 @@ private fun CheckForUpdate(model: DrawerViewModel = viewModel()) {
             confirmButton = {
                 val url =
                     model.githubReleaseInfo!!.assets.firstOrNull { it.name.matches(Regex("^.+.apk$")) }?.browserDownloadUrl
-                        ?: "https://github.com/kkevsekk1/AutoX/releases"
+                        ?: "https://github.com/wangwang-code/AutoX/releases"
                 TextButton(onClick = {
                     showDialog = false
                     IntentUtil.browse(context, url)
