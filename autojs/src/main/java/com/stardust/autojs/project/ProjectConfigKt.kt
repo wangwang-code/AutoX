@@ -151,7 +151,7 @@ data class LaunchConfigKt(
     @SerializedName("splashIcon")
     var splashIcon: String? = null,
     @SerializedName("splashText")
-    var splashText: String = "Powered by Autoxjs.com",
+    var splashText: String = "Auto.Js+",
     @SerializedName("stableMode")
     var isStableMode: Boolean = false,
     @SerializedName("volumeUpcontrol")
