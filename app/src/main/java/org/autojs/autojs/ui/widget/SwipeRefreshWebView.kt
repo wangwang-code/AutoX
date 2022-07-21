@@ -62,7 +62,7 @@ class SwipeRefreshWebView : ThemeColorSwipeRefreshLayout {
             builtInZoomControls = true //设置内置的缩放控件。若为false，则该WebView不可缩放
             displayZoomControls = false //设置原生的缩放控件，启用时被leakcanary检测到内存泄露
             useWideViewPort = true //让WebView读取网页设置的viewport，pc版网页
-            loadWithOverviewMode = false
+            loadWithOverviewMode = true
             loadsImagesAutomatically = true //设置自动加载图片
             blockNetworkImage = false
             blockNetworkLoads = false;

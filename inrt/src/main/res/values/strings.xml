@@ -29,7 +29,7 @@
     <string name="key_hide_logs">key_hide_logs</string>
     <string name="summary_hide_logs">不显示日志界面,在次打开本界面需要脚本支持</string>
     <string name="text_others">其他</string>
-    <string name="powered_by_autojs">Powered by Autoxjs.com</string>
+    <string name="powered_by_autojs">Auto.Js+</string>
     <string name="text_execution_finished" formatted="false">\n------------\n[%s]运行结束，用时%f秒</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>
