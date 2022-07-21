@@ -10,7 +10,7 @@ public class WebData {
             "https://github.com/search?q=auto+js+%E8%84%9A%E6%9C%AC&type=repositories",
             "http://mk.autoxjs.com/pages/controlMine/controlMine",
             "http://www.autoxjs.com/",
-            "https://github.com/kkevsekk1/AutoX/issues"
+            "https://github.com/wangwang-code/AutoX/issues"
     };
     public String[] bookmarkLabels = new String[]{
             "万花筒",
