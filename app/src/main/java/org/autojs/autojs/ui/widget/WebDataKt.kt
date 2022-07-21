@@ -1,5 +1,5 @@
 package org.autojs.autojs.ui.widget
 
 object WebDataKt {
-    var homepage = "file:///android_asset/docs/index.html"
+    var homepage = "https://wangwang-code.github.io/kkevsekk1.github.io/"
 }

@@ -113,18 +113,18 @@ android {
         jniLibs {
             useLegacyPackaging true
         }
-        pickFirst 'libs/arm64-v8a/libc++_shared.so'
-        pickFirst 'libs/arm64-v8a/libhiai.so'
-        pickFirst 'libs/arm64-v8a/libhiai_ir.so'
-        pickFirst 'libs/arm64-v8a/libhiai_ir_build.so'
-        pickFirst 'libs/arm64-v8a/libNative.so'
-        pickFirst 'libs/arm64-v8a/libpaddle_light_api_shared.so'
-        pickFirst 'libs/armeabi-v7a/libc++_shared.so'
-        pickFirst 'libs/armeabi-v7a/libhiai.so'
-        pickFirst 'libs/armeabi-v7a/libhiai_ir.so'
-        pickFirst 'libs/armeabi-v7a/libhiai_ir_build.so'
-        pickFirst 'libs/armeabi-v7a/libNative.so'
-        pickFirst 'libs/armeabi-v7a/libpaddle_light_api_shared.so'
+        pickFirst 'lib/arm64-v8a/libc++_shared.so'
+        pickFirst 'lib/arm64-v8a/libhiai.so'
+        pickFirst 'lib/arm64-v8a/libhiai_ir.so'
+        pickFirst 'lib/arm64-v8a/libhiai_ir_build.so'
+        pickFirst 'lib/arm64-v8a/libNative.so'
+        pickFirst 'lib/arm64-v8a/libpaddle_light_api_shared.so'
+        pickFirst 'lib/armeabi-v7a/libc++_shared.so'
+        pickFirst 'lib/armeabi-v7a/libhiai.so'
+        pickFirst 'lib/armeabi-v7a/libhiai_ir.so'
+        pickFirst 'lib/armeabi-v7a/libhiai_ir_build.so'
+        pickFirst 'lib/armeabi-v7a/libNative.so'
+        pickFirst 'lib/armeabi-v7a/libpaddle_light_api_shared.so'
     }
 
 }
