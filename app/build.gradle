@@ -120,12 +120,12 @@ android {
             manifestPlaceholders = [appName: "@string/app_name"]
         }
         dev {
-            applicationIdSuffix ".dev"
+//            applicationIdSuffix ".dev"
             versionCode versions.devVersionCode
             versionName versions.devVersionName
             buildConfigField "String", "CHANNEL", '"dev"'
             buildConfigField "String", "APPID", '"?id=23"'
-            manifestPlaceholders = [appName: "Autox.js[dev]"]
+            manifestPlaceholders = [appName: "@string/app_name"]
         }
 
     }
