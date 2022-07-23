@@ -337,8 +337,8 @@ open class BuildActivity : ComponentActivity(), ApkBuilder.ProgressCallback {
 
         val excludeAssets = mutableListOf<String>()
         if (!viewModel.isRequiredDefaultOcrModel) {
-            excludeAssets.add(Constant.Assets.OCR_MODELS + "/ocr_v2_for_cpu")
-            excludeAssets.add(Constant.Assets.OCR_MODELS + "/ocr_v2_for_cpu(slim)")
+            excludeAssets.add(Constant.Assets.OCR_MODELS + "/default")
+            excludeAssets.add(Constant.Assets.OCR_MODELS + "/default(slim)")
         }
 
         if (viewModel.projectConfig != null) {

@@ -1,0 +1,25 @@
+{
+  "version": 3,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "com.stardust.auojs.inrt",
+  "variantName": "commonRelease",
+  "elements": [
+    {
+      "type": "ONE_OF_MANY",
+      "filters": [
+        {
+          "filterType": "ABI",
+          "value": "arm64-v8a"
+        }
+      ],
+      "attributes": [],
+      "versionCode": 624,
+      "versionName": "6.2.4",
+      "outputFile": "inrt-common-arm64-v8a-release.apk"
+    }
+  ],
+  "elementType": "File"
+}
