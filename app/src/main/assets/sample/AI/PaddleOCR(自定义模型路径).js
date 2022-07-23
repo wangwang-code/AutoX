@@ -9,7 +9,7 @@ let result = paddle.ocr(img, cpuThreadNum, myModelPath)
 log('OCR识别耗时：' + (new Date() - start) + 'ms')
 toastLog("完整识别信息: " + JSON.stringify(result))
 start = new Date()
-// 识别图片中的文字，只返回文本识别信息（字符串列表）。当前版本可能存在文字顺序错乱的问题 建议先使用detect后自行排序
+// 识别图片中的文字，只返回文本识别信息（字符串列表）
 const stringList = paddle.ocrText(img, cpuThreadNum, myModelPath)
 log('OCR纯文本识别耗时：' + (new Date() - start) + 'ms')
 toastLog("文本识别信息: " + JSON.stringify(stringList))
