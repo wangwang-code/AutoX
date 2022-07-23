@@ -54,6 +54,14 @@ public class EditorMenu {
             case R.id.action_force_stop:
                 forceStop();
                 return true;
+            case R.id.switch_line_wrap:
+                Pref.setLineWrap(!Pref.getLineWrap());
+                if (Pref.getLineWrap()) {
+                    Toast.makeText(mContext, "已打开编辑器自动换行，重启编辑器后生效！", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(mContext, "已关闭编辑器自动换行，重启编辑器后生效！", Toast.LENGTH_LONG).show();
+                }
+                break;
             default:
                 if (onEditOptionsSelected(item)) {
                     return true;

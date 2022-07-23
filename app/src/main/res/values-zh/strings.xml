@@ -30,5 +30,6 @@
     <string name="text_drawer_right">打开右侧菜单</string>
     <string name="switch_fullscreen">切换全屏模式</string>
     <string name="text_licenses_other">非开源许可</string>
+    <string name="switch_line_wrap">切换自动换行</string>
 
 </resources>

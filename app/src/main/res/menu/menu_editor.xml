@@ -3,6 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/switch_line_wrap"
+        android:icon="@drawable/ic_format_line_spacing_black_48dp"
+        android:title="@string/switch_line_wrap"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_force_stop"
         android:title="@string/text_force_stop"
         app:showAsAction="never" />

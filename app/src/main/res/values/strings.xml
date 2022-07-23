@@ -525,4 +525,5 @@
     <string name="text_menu">菜单</string>
     <string name="text_exit_search">退出搜索</string>
     <string name="text_licenses_other">非开源许可</string>
+    <string name="switch_line_wrap">切换自动换行</string>
 </resources>
