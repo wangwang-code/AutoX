@@ -18,11 +18,6 @@ import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 
-/**
- * Created by TonyJiangWJ(https://github.com/TonyJiangWJ).
- * From [TonyJiangWJ/Auto.js](https://github.com/TonyJiangWJ/Auto.js)
- */
-
 public class AndroidJobProvider extends TimedTaskScheduler implements WorkProvider {
 
     private static final String LOG_TAG = "AndroidJobProvider";

@@ -39,8 +39,8 @@ android {
         disable 'ExtraTranslation'
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
         encoding = 'utf-8'
     }
     signingConfigs {
@@ -107,9 +107,6 @@ android {
         }
     }
     packagingOptions {
-        //ktor netty implementation "io.ktor:ktor-server-netty:2.0.1"
-        pickFirst "META-INF/io.netty.versions.properties"
-        pickFirst "META-INF/INDEX.LIST"
         jniLibs {
             useLegacyPackaging true
         }
@@ -126,7 +123,6 @@ android {
         pickFirst 'lib/armeabi-v7a/libNative.so'
         pickFirst 'lib/armeabi-v7a/libpaddle_light_api_shared.so'
     }
-
 }
 
 task publishMarket(group: 'build') {

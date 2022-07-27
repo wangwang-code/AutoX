@@ -1,6 +1,6 @@
 
 // 字符串消息摘要
-let message = "Hello, Autox.js";
+let message = "Hello, Auto.Js+";
 // 输出各种消息摘要算法结果的hex值
 log("字符串: ", message);
 log("MD5: ", $crypto.digest(message, "MD5"));

@@ -32,11 +32,13 @@
     <string name="copyright">Copyright©2020-2022 All right reserves.</string>
     <string name="developer">aaron</string>
     <string name="qq" translatable="false">895775483</string>
+    <string name="text_qq" translatable="false">QQ群：895775483</string>
     <string name="email" translatable="false">chengshulun@live.com</string>
     <string name="github">软件源代码</string>
     <string name="text_already_copy_to_clip">已复制到剪贴板</string>
-    <string name="my_github">https://github.com/wangwang-code/AutoX</string>
-    <string name="share_app">[Autox.js]下载地址：https://github.com/wangwang-code/AutoX/releases </string>
+    <string name="text_qq_already_copy_to_clip">QQ群号已复制到剪贴板</string>
+    <string name="my_github">https://github.com/kkevsekk1/autox</string>
+    <string name="share_app">[Auto.Js+]下载地址：https://github.com/wangwang-code/AutoX/releases </string>
     <string name="text_floating_window">悬浮窗</string>
     <string name="text_error_report">错误报告</string>
     <string name="text_press_again_to_exit">再按一次退出程序</string>
@@ -97,7 +99,7 @@
     <string name="text_import_succeed">导入成功</string>
     <string name="text_current_activity">当前活动:</string>
     <string name="text_current_package">当前应用包名:</string>
-    <string name="go_to_accessibility_settings"><![CDATA[请打开设置->无障碍服务->Autox.js并开启]]></string>
+    <string name="go_to_accessibility_settings"><![CDATA[请打开设置->无障碍服务->Auto.Js+并开启]]></string>
     <string name="text_script_running">脚本运行</string>
     <string name="key_use_volume_control_running">key_use_volume_control_running</string>
     <string name="text_use_volume_to_stop_running">音量上键停止所有脚本</string>
@@ -416,7 +418,7 @@
     <string name="text_foreground_service">前台服务</string>
     <string name="key_foreground_servie">key_foreground_service</string>
     <string name="foreground_notification_channel_name">前台服务通知</string>
-    <string name="foreground_notification_title">Autox.js保持运行中</string>
+    <string name="foreground_notification_title">Auto.Js+保持运行中</string>
     <string name="foreground_notification_text">点击进入主界面</string>
     <string name="text_run_on_other_broadcast">其他事件(广播)</string>
     <string name="text_broadcast_action">广播Action</string>
@@ -443,7 +445,7 @@
     <string name="text_project_save_error">项目保存失败 %s</string>
     <string name="text_night_mode">夜间模式</string>
     <string name="key_night_mode">key_night_mode</string>
-    <string name="text_run_on_startup">Autox.js启动时</string>
+    <string name="text_run_on_startup">Auto.Js+启动时</string>
     <string name="text_usage_stats_permission">使用情况访问权限</string>
     <string name="description_usage_stats_permission">通过\"查看使用统计\"权限可以获取本设备过去使用应用的情况，从而使获取当前应用(currentPackage)时更准确。</string>
     <string name="text_open_with">打开方式</string>
@@ -484,7 +486,7 @@
     <string name="air_dialog_description_failed_issues_not_available">Issues不可用，请联系软件开发者.</string>
     <string name="air_dialog_description_failed_unknown">未知错误</string>
     <string name="air_dialog_action_failed">OK</string>
-    <string name="text_template_apk_not_found">找不到模板apk，请把"build\outputs\apk\common\release"目录下的apk文件复制到"app/src/main/assets"并命名为"template.apk"再重新构建</string>
+    <string name="text_template_apk_not_found">找不到模板apk，请把"build/outputs/apk/common/release"目录下的apk文件复制到"app/src/main/assets"并命名为"template.apk"再重新构建</string>
     <string name="desc_back">后退</string>
     <string name="desc_add_icon">添加图标</string>
     <string name="text_default_signature">默认签名</string>

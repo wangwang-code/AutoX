@@ -1,6 +1,7 @@
 package org.autojs.autojs.ui.floating.layoutinspector;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
 import com.stardust.app.DialogUtils;
+import com.stardust.app.GlobalAppContext;
 import com.stardust.enhancedfloaty.FloatyService;
 
 import org.autojs.autojs.R;
@@ -19,6 +21,7 @@ import org.autojs.autojs.ui.floating.FullScreenFloatyWindow;
 import com.stardust.view.accessibility.LayoutInspector;
 import com.stardust.view.accessibility.NodeInfo;
 
+import org.autojs.autojs.ui.main.MainActivityCompose;
 import org.autojs.autojs.ui.widget.BubblePopupMenu;
 
 import java.util.Arrays;
@@ -99,15 +102,18 @@ public class LayoutBoundsFloatyWindow extends FullScreenFloatyWindow {
         mBubblePopMenu = new BubblePopupMenu(mContext, Arrays.asList(
                 mContext.getString(R.string.text_show_widget_infomation),
                 mContext.getString(R.string.text_show_layout_hierarchy),
-                mContext.getString(R.string.text_generate_code)));
+                mContext.getString(R.string.text_generate_code),
+                mContext.getString(R.string.text_exit)));
         mBubblePopMenu.setOnItemClickListener((view, position) -> {
             mBubblePopMenu.dismiss();
             if (position == 0) {
                 showNodeInfo();
             } else if (position == 1) {
                 showLayoutHierarchy();
-            } else {
+            } else if (position == 2) {
                 generateCode();
+            } else {
+                super.close();
             }
         });
         mBubblePopMenu.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);

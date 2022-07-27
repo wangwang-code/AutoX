@@ -19,10 +19,10 @@ import org.autojs.autojs.R;
 import org.autojs.autojs.model.indices.AndroidClass;
 import org.autojs.autojs.model.indices.ClassSearchingItem;
 import org.autojs.autojs.theme.dialog.ThemeColorMaterialDialogBuilder;
+import org.autojs.autojs.ui.build.BuildActivity;
 import org.autojs.autojs.ui.common.NotAskAgainDialog;
 import org.autojs.autojs.ui.edit.editor.CodeEditor;
 import org.autojs.autojs.ui.log.LogActivity_;
-import org.autojs.autojs.ui.project.BuildActivity;
 
 import java.util.Locale;
 

@@ -177,7 +177,8 @@ open class LayoutHierarchyFloatyWindow(private val mRootNode: NodeInfo) : FullSc
             mContext, Arrays.asList(
                 mContext!!.getString(R.string.text_show_widget_infomation),
                 mContext!!.getString(R.string.text_show_layout_bounds),
-                mContext!!.getString(R.string.text_generate_code)
+                mContext!!.getString(R.string.text_generate_code),
+                mContext!!.getString(R.string.text_exit)
             )
         )
         mBubblePopMenu!!.setOnItemClickListener { view: View?, position: Int ->
@@ -189,8 +190,11 @@ open class LayoutHierarchyFloatyWindow(private val mRootNode: NodeInfo) : FullSc
                 1 -> {
                     showLayoutBounds()
                 }
-                else -> {
+                2 -> {
                     generateCode()
+                }
+                else -> {
+                    super.close()
                 }
             }
         }
