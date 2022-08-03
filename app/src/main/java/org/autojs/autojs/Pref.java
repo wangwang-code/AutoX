@@ -223,7 +223,7 @@ public class Pref {
     }
 
     public static int getTaskManager() {
-        return def().getInt("TaskManager", 0);
+        return def().getInt("TaskManager", 2);
     }
 
 }

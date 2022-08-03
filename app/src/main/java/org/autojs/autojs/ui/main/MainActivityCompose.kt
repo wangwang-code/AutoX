@@ -34,6 +34,7 @@ import kotlinx.coroutines.launch
 import org.autojs.autojs.Pref
 import org.autojs.autojs.R
 import org.autojs.autojs.external.foreground.ForegroundService
+import org.autojs.autojs.timing.TimedTaskScheduler
 import org.autojs.autojs.ui.compose.theme.AutoXJsTheme
 import org.autojs.autojs.ui.compose.widget.SearchBox2
 import org.autojs.autojs.ui.floating.FloatyWindowManger

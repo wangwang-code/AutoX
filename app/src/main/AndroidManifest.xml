@@ -475,7 +475,7 @@
             android:theme="@style/AppTheme.Transparent" />
         <activity
             android:name=".external.widget.ScriptWidgetSettingsActivity_"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
@@ -493,7 +493,8 @@
         <service android:name=".external.ScriptExecutionIntentService" />
 
         <activity android:name=".external.tasker.TaskPrefEditActivity_" />
-        <activity android:name=".ui.log.LogActivity_"/>
+        <activity android:name=".ui.log.LogActivity_" />
+
         <activity-alias
             android:name=".external.tasker.PluginActivity"
             android:exported="true"
@@ -508,7 +509,7 @@
 
         <service
             android:name=".external.tile.LayoutBoundsTile"
-            android:exported="false"
+            android:exported="true"
             android:icon="@drawable/ic_circular_menu_bounds"
             android:label="@string/text_inspect_layout_bounds"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
@@ -522,7 +523,7 @@
         </service>
         <service
             android:name=".external.tile.LayoutHierarchyTile"
-            android:exported="false"
+            android:exported="true"
             android:icon="@drawable/ic_circular_menu_hierarchy"
             android:label="@string/text_inspect_layout_hierarchy"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
@@ -645,7 +646,7 @@
 
         <service
             android:name="com.stardust.notification.NotificationListenerService"
-            android:exported="false"
+            android:exported="true"
             android:label="${appName}"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>

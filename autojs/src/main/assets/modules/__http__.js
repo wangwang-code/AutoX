@@ -1,18 +1,44 @@
 module.exports = function (runtime, scope) {
-    importPackage(Packages["okhttp3"]);
-    importClass(com.stardust.autojs.core.http.MutableOkHttp);
+    var okhttp3 = Packages["okhttp3"];
+    var Callback = okhttp3.Callback;
+    var FormBody = okhttp3.FormBody;
+    var MutableOkHttp = com.stardust.autojs.core.http.MutableOkHttp;
+    var MultipartBody = okhttp3.MultipartBody;
+    var MediaType = okhttp3.MediaType;
+    var Request = okhttp3.Request;
+    var RequestBody = okhttp3.RequestBody;
     var http = {};
+    var $files = scope.$files;
 
     http.__okhttp__ = new MutableOkHttp();
+
+    http.buildRequest = function (url, options) {
+        var r = new Request.Builder();
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+            url = "http://" + url;
+        }
+        r.url(url);
+        if (options.headers) {
+            setHeaders(r, options.headers);
+        }
+        if (options.body) {
+            r.method(options.method, parseBody(options, options.body));
+        } else if (options.files) {
+            r.method(options.method, parseMultipart(options.files));
+        } else {
+            r.method(options.method, null);
+        }
+        return r.build();
+    }
+
+    http.client = function () {
+        return http.__okhttp__.client();
+    }
 
     http.get = function (url, options, callback) {
         options = options || {};
         options.method = "GET";
         return http.request(url, options, callback);
-    }
-
-    http.client = function () {
-        return http.__okhttp__.client();
     }
 
     http.post = function (url, data, options, callback) {
@@ -36,21 +62,28 @@ module.exports = function (runtime, scope) {
         options.method = "POST";
         options.contentType = "multipart/form-data";
         options.files = files;
-        return http.request(url, options, callback);
+        return http.request(url, options, callback);a
     }
 
     http.request = function (url, options, callback) {
         var cont = null;
+        var disposable = null;
         if (!callback && ui.isUiThread() && continuation.enabled) {
             cont = continuation.create();
         }
         var call = http.client().newCall(http.buildRequest(url, options));
         if (!callback && !cont) {
-            return wrapResponse(call.execute());
+            disposable = threads.disposable();
+            callback = function (res, ex) {
+                disposable.setAndNotify({
+                    error: ex,
+                    response: res
+                });
+            }
         }
         call.enqueue(new Callback({
             onResponse: function (call, res) {
-                res = wrapResponse(res);
+                res = new HttpResponse(res);
                 cont && cont.resume(res);
                 callback && callback(res);
             },
@@ -62,25 +95,72 @@ module.exports = function (runtime, scope) {
         if (cont) {
             return cont.await();
         }
+        if (disposable) {
+            try {
+                var result = disposable.blockedGet(http.__okhttp__.timeout);
+                if (result.error) {
+                    throw result.error;
+                }
+                return result.response;
+            } catch (e) {
+                call.cancel();
+                throw e;
+            }
+        }
+
     }
 
-    http.buildRequest = function (url, options) {
-        var r = new Request.Builder();
-        if (!url.startsWith("http://") && !url.startsWith("https://")) {
-            url = "http://" + url;
-        }
-        r.url(url);
-        if (options.headers) {
-            setHeaders(r, options.headers);
-        }
-        if (options.body) {
-            r.method(options.method, parseBody(options, options.body));
-        } else if (options.files) {
-            r.method(options.method, parseMultipart(options.files));
+    function fillPostData(options, data) {
+        if (options.contentType == "application/x-www-form-urlencoded") {
+            var b = new FormBody.Builder();
+            for (var key in data) {
+                if (data.hasOwnProperty(key)) {
+                    let value = data[key];
+                    if (value == null) {
+                        throw new Error("Post data value with key '" + key + "'is null");
+                    }
+                    b.add(key, data[key]);
+                }
+            }
+            options.body = b.build();
+        } else if (options.contentType == "application/json") {
+            options.body = JSON.stringify(data);
         } else {
-            r.method(options.method, null);
+            options.body = data;
         }
-        return r.build();
+    }
+
+    function HttpResponse(res) {
+        this.raw = res;
+        this.statusCode = res.code();
+        this.statusMessage = res.message();
+        this.body = new HttpResponseBody(this);
+        this.request = res.request();
+        this.url = this.request.url();
+        this.method = this.request.method();
+
+        let headers = res.headers();
+        this.headers = {};
+        for (var i = 0; i < headers.size(); i++) {
+            let name = headers.name(i);
+            let value = headers.value(i);
+            if (this.headers.hasOwnProperty(name)) {
+                let origin = this.headers[name];
+                if (!Array.isArray(origin)) {
+                    this.headers[name] = [origin];
+                }
+                this.headers[name].push(value);
+            } else {
+                this.headers[name] = value;
+            }
+        }
+
+    }
+
+    function HttpResponseBody(res) {
+        this.response = res;
+        this.raw = res.raw.body();
+        this.contentType = this.raw.contentType();
     }
 
     function parseMultipart(files) {
@@ -105,10 +185,14 @@ module.exports = function (runtime, scope) {
                 fileName = value[0];
                 mimeType = value[1]
                 path = value[2];
+            } else {
+                builder.addFormDataPart(key, value);
+                continue;
+//                throw new Error('Cannot parse multipart data: key = ' + key + ', value = ' + value + ', typeof value = ' + typeof(value));
             }
-            var file = new com.stardust.pio.PFile(path);
+            var file = new java.io.File($files.path(path));
             fileName = fileName || file.getName();
-            mimeType = mimeType || parseMimeType(file.getExtension());
+            mimeType = mimeType || parseMimeType($files.getExtension(fileName));
             builder.addFormDataPart(key, fileName, RequestBody.create(MediaType.parse(mimeType), file));
         }
         return builder.build();
@@ -120,37 +204,6 @@ module.exports = function (runtime, scope) {
         }
         return android.webkit.MimeTypeMap.getSingleton().getMimeTypeFromExtension(ext)
             || "application/octet-stream";
-    }
-
-    function fillPostData(options, data) {
-        if (options.contentType == "application/x-www-form-urlencoded") {
-            var b = new FormBody.Builder();
-            for (var key in data) {
-                if (data.hasOwnProperty(key)) {
-                    b.add(key, data[key]);
-                }
-            }
-            options.body = b.build();
-        } else if (options.contentType == "application/json") {
-            options.body = JSON.stringify(data);
-        } else {
-            options.body = data;
-        }
-    }
-
-    function setHeaders(r, headers) {
-        for (var key in headers) {
-            if (headers.hasOwnProperty(key)) {
-                let value = headers[key];
-                if (Array.isArray(value)) {
-                    value.forEach(v => {
-                        r.header(key, v);
-                    });
-                } else {
-                    r.header(key, value);
-                }
-            }
-        }
     }
 
     function parseBody(options, body) {
@@ -169,37 +222,34 @@ module.exports = function (runtime, scope) {
         return body;
     }
 
-    function wrapResponse(res) {
-        var r = {};
-        r.statusCode = res.code();
-        r.statusMessage = res.message();
-        var headers = res.headers();
-        r.headers = {};
-        for (var i = 0; i < headers.size(); i++) {
-            let name = headers.name(i);
-            let value = headers.value(i);
-            if (r.headers.hasOwnProperty(name)) {
-                let origin = r.headers[name];
-                if (!Array.isArray(origin)) {
-                    r.headers[name] = [origin];
-                }
-                r.headers[name].push(value);
-            } else {
-                r.headers[name] = value;
-            }
+    function setHeaders(r, headers) {
+         for (var key in headers) {
+             if (headers.hasOwnProperty(key)) {
+                 let value = headers[key];
+                 if (Array.isArray(value)) {
+                     value.forEach(v => {
+                         r.header(key, v);
+                     });
+                 } else {
+                     r.header(key, value);
+                 }
+             }
+         }
+     }
+
+    HttpResponseBody.prototype.string = function () {
+        if (typeof (this.__string__) === 'undefined') {
+            this.__string__ = this.raw.string();
         }
-        r.body = {};
-        var body = res.body();
-        r.body.string = body.string.bind(body);
-        r.body.bytes = body.bytes.bind(body);
-        r.body.json = function () {
-            return JSON.parse(r.body.string());
-        }
-        r.body.contentType = body.contentType();
-        r.request = res.request();
-        r.url = r.request.url();
-        r.method = r.request.method();
-        return r;
+        return this.__string__;
+    }
+
+    HttpResponseBody.prototype.json = function () {
+        return JSON.parse(this.string());
+    }
+
+    HttpResponseBody.prototype.bytes = function () {
+        return this.raw.bytes();
     }
 
     return http;

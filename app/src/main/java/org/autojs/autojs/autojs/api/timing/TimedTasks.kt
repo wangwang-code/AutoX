@@ -9,11 +9,11 @@ import org.joda.time.LocalTime
 object TimedTasks {
 
     fun daily(path: String, hour: Int, minute: Int) {
-        TimedTaskManager.getInstance().addTask(TimedTask.dailyTask(LocalTime(hour, minute), path, ExecutionConfig()))
+        TimedTaskManager.instance?.addTask(TimedTask.dailyTask(LocalTime(hour, minute), path, ExecutionConfig()))
     }
 
     fun disposable(path: String, millis: Long) {
-        TimedTaskManager.getInstance().addTask(TimedTask.disposableTask(LocalDateTime(millis), path, ExecutionConfig()))
+        TimedTaskManager.instance?.addTask(TimedTask.disposableTask(LocalDateTime(millis), path, ExecutionConfig()))
     }
 
     fun weekly(path: String, millis: Long) {

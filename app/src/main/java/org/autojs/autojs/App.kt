@@ -83,26 +83,26 @@ class App : MultiDexApplication() {
         dynamicBroadcastReceivers = DynamicBroadcastReceivers(this)
         val localActions = ArrayList<String>()
         val actions = ArrayList<String>()
-        TimedTaskManager.getInstance().allIntentTasks
-                .filter { task -> task.action != null }
-                .doOnComplete {
-                    if (localActions.isNotEmpty()) {
-                        dynamicBroadcastReceivers.register(localActions, true)
-                    }
-                    if (actions.isNotEmpty()) {
-                        dynamicBroadcastReceivers.register(actions, false)
-                    }
-                    LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(Intent(
-                            DynamicBroadcastReceivers.ACTION_STARTUP
-                    ))
+        TimedTaskManager.instance?.allIntentTasks
+            ?.filter { task -> task.action != null }
+            ?.doOnComplete {
+                if (localActions.isNotEmpty()) {
+                    dynamicBroadcastReceivers.register(localActions, true)
                 }
-                .subscribe({
-                    if (it.isLocal) {
-                        localActions.add(it.action)
-                    } else {
-                        actions.add(it.action)
-                    }
-                }, { it.printStackTrace() })
+                if (actions.isNotEmpty()) {
+                    dynamicBroadcastReceivers.register(actions, false)
+                }
+                LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(Intent(
+                    DynamicBroadcastReceivers.ACTION_STARTUP
+                ))
+            }
+            ?.subscribe({
+                if (it.isLocal) {
+                    it.action?.let { it1 -> localActions.add(it1) }
+                } else {
+                    it.action?.let { it1 -> actions.add(it1) }
+                }
+            }, { it.printStackTrace() })
 
 
     }

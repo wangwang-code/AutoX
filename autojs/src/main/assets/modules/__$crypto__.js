@@ -14,21 +14,11 @@ module.exports = function (runtime, global) {
     var CipherOutputStream = javax.crypto.CipherOutputStream;
     var ByteArrayOutputStream = java.io.ByteArrayOutputStream;
 
-    function $cypto() {
+    function $crypto() {
 
     }
 
-    $cypto.digest = function (message, algorithm, options) {
-        options = options || {};
-        let instance = MessageDigest.getInstance(algorithm);
-        $cypto._input(message, options, (bytes, start, length) => {
-            instance.update(bytes, start, length);
-        });
-        let bytes = instance.digest();
-        return $cypto._output(bytes, options, 'hex');
-    }
-
-    $cypto._input = function (input, options, callback) {
+    $crypto._input = function (input, options, callback) {
         if (options.input == 'file') {
             let fis = new java.io.FileInputStream(input);
             let buffer = util.java.array('byte', 4096);
@@ -45,7 +35,7 @@ module.exports = function (runtime, global) {
         if (options.input == 'base64') {
             input = Base64.decode(input, Base64.NO_WRAP);
         } else if (options.input == 'hex') {
-            input = $cypto._fromHex(input);
+            input = $crypto._fromHex(input);
         } else {
             let encoding = options.encoding || "utf-8";
             if (typeof (input) == 'string') {
@@ -55,7 +45,7 @@ module.exports = function (runtime, global) {
         callback(input, 0, input.length);
     }
 
-    $cypto._output = function (bytes, options, defFormat) {
+    $crypto._output = function (bytes, options, defFormat) {
         let format = options.output || defFormat;
         if (format == 'base64') {
             return Base64.encodeToString(bytes, Base64.NO_WRAP);
@@ -67,28 +57,18 @@ module.exports = function (runtime, global) {
         if (format == 'string') {
             return String(new java.lang.String(bytes, encoding));
         }
-        return $cypto._toHex(bytes);
+        return $crypto._toHex(bytes);
     }
 
-    $cypto._toHex = function (bytes) {
+    $crypto._toHex = function (bytes) {
         return Crypto.toHex(bytes);
     }
 
-    $cypto._fromHex = function (bytes) {
+    $crypto._fromHex = function (bytes) {
         return Crypto.fromHex(bytes);
     }
 
-    $cypto.Key = Key;
-
-    $cypto.encrypt = function (data, key, algorithm, options) {
-        return $cypto._chiper(data, Cipher.ENCRYPT_MODE, key, algorithm, options);
-    }
-
-    $cypto.decrypt = function (data, key, algorithm, options) {
-        return $cypto._chiper(data, Cipher.DECRYPT_MODE, key, algorithm, options);
-    }
-
-    $cypto._chiper = function (data, mode, key, algorithm, options) {
+    $crypto._cipher = function (data, mode, key, algorithm, options) {
         options = options || {};
         let cipher = Cipher.getInstance(algorithm);
         cipher.init(mode, key.toKeySpec(algorithm));
@@ -100,7 +80,7 @@ module.exports = function (runtime, global) {
             os = new ByteArrayOutputStream();
         }
         let cos = new CipherOutputStream(os, cipher);
-        $cypto._input(data, options, (bytes, start, length) => {
+        $crypto._input(data, options, (bytes, start, length) => {
             cos.write(bytes, start, length);
         });
         cos.close();
@@ -111,7 +91,25 @@ module.exports = function (runtime, global) {
         }
     }
 
-    $cypto.generateKeyPair = function (algorithm, length) {
+    $crypto.decrypt = function (data, key, algorithm, options) {
+        return $crypto._cipher(data, Cipher.DECRYPT_MODE, key, algorithm, options);
+    }
+
+    $crypto.digest = function (message, algorithm, options) {
+        options = options || {};
+        let instance = MessageDigest.getInstance(algorithm);
+        $crypto._input(message, options, (bytes, start, length) => {
+            instance.update(bytes, start, length);
+        });
+        let bytes = instance.digest();
+        return $crypto._output(bytes, options, 'hex');
+    }
+
+    $crypto.encrypt = function (data, key, algorithm, options) {
+        return $crypto._cipher(data, Cipher.ENCRYPT_MODE, key, algorithm, options);
+    }
+
+    $crypto.generateKeyPair = function (algorithm, length) {
         let generator = KeyPairGenerator.getInstance(algorithm);
         length = length || 256;
         generator.initialize(length);
@@ -119,11 +117,15 @@ module.exports = function (runtime, global) {
         return new KeyPair(keyPair.getPublic().getEncoded(), keyPair.getPrivate().getEncoded());
     }
 
+    $crypto.Key = Key;
+
+    $crypto.KeyPair = KeyPair;
+
     function Key(data, options) {
         options = options || {};
         this.keyPair = options.keyPair;
         let bos = new java.io.ByteArrayOutputStream();
-        $cypto._input(data, options, (bytes, start, length) => {
+        $crypto._input(data, options, (bytes, start, length) => {
             bos.write(bytes, start, length);
         });
         this.data = bos.toByteArray();
@@ -143,7 +145,7 @@ module.exports = function (runtime, global) {
             }
             throw new Error()
         }
-        return new SecretKeySpec(key.data, algorithm);
+        return new SecretKeySpec(this.data, algorithm);
     }
 
     Key.prototype.toString = function () {
@@ -162,5 +164,5 @@ module.exports = function (runtime, global) {
         this.privateKey = new Key(privateKey, options);
     }
 
-    return $cypto;
+    return $crypto;
 }
