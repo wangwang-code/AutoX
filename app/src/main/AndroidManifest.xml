@@ -680,14 +680,14 @@
                 <action android:name="android.intent.action.DOWNLOAD_NOTIFICATION_CLICKED" />
             </intent-filter>
         </receiver>
-        <receiver
-            android:name=".timing.work.AlarmManagerProvider"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.stardust.autojs.action.check_task" />
-                <action android:name="com.android.deskclock.ALARM_ALERT" />
-            </intent-filter>
-        </receiver>
+<!--        <receiver-->
+<!--            android:name=".timing.work.AlarmManagerProvider"-->
+<!--            android:exported="false">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.stardust.autojs.action.check_task" />-->
+<!--                <action android:name="com.android.deskclock.ALARM_ALERT" />-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
     </application>
 
 </manifest>
