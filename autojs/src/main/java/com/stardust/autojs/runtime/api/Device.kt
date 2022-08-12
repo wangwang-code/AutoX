@@ -84,6 +84,7 @@ class Device(private val mContext: Context) {
         val FAKE_MAC_ADDRESS = "02:00:00:00:00:00"
 
         @get:Throws(SocketException::class)
+        @JvmStatic
         private val macByInterface: String?
             private get() {
                 val networkInterfaces: List<NetworkInterface> =
@@ -95,7 +96,7 @@ class Device(private val mContext: Context) {
                         for (b in macBytes) {
                             mac.append(String.format("%02X:", b))
                         }
-                        if (mac.length > 0) {
+                        if (mac.isNotEmpty()) {
                             mac.deleteCharAt(mac.length - 1)
                         }
                         return mac.toString()
@@ -105,6 +106,7 @@ class Device(private val mContext: Context) {
             }
 
         @get:Throws(Exception::class)
+        @JvmStatic
         private val macByFile: String?
             private get() = try {
                 PFiles.read("/sys/class/net/wlan0/address")
