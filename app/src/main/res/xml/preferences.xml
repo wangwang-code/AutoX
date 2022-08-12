@@ -78,14 +78,14 @@
 
     </PreferenceCategory>
 
-<!--    <PreferenceCategory-->
-<!--        android:layout="@layout/preference_category_custom"-->
-<!--        android:title="@string/text_appearance">-->
-<!--        <Preference-->
-<!--            android:layout="@layout/preference_custom"-->
-<!--            android:title="@string/text_theme_color"-->
-<!--            />-->
-<!--    </PreferenceCategory>-->
+    <PreferenceCategory
+        android:layout="@layout/preference_category_custom"
+        android:title="@string/text_appearance">
+        <Preference
+            android:layout="@layout/preference_custom"
+            android:title="@string/text_theme_color"
+            />
+    </PreferenceCategory>
 
     <PreferenceCategory
         android:layout="@layout/preference_category_custom"
@@ -113,19 +113,20 @@
         android:layout="@layout/preference_category_custom"
         android:title="@string/text_about">
 
-<!--        <Preference-->
-<!--            android:layout="@layout/preference_custom"-->
-<!--            android:title="@string/text_issue_report"-->
-<!--            />-->
-<!--        <Preference-->
-<!--            android:layout="@layout/preference_custom"-->
-<!--            android:title="@string/text_about_me_and_repo" />-->
         <Preference
             android:layout="@layout/preference_custom"
-            android:title="@string/text_licenses" />
+            android:title="@string/text_issue_report"
+            />
+
         <Preference
             android:layout="@layout/preference_custom"
-            android:title="@string/text_licenses_other" />
+            android:title="@string/text_about_me_and_repo"
+            />
+
+        <Preference
+            android:layout="@layout/preference_custom"
+            android:title="@string/text_licenses"
+            />
     </PreferenceCategory>
 
 </PreferenceScreen>
