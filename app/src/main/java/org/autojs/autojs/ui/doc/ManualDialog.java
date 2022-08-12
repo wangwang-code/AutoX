@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import org.autojs.autojs.R;
-import org.autojs.autojs.ui.widget.EWebView;
+import org.autojs.autojs.ui.main.web.EWebView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -1,4 +1,4 @@
-package org.autojs.autojs.ui.widget;
+package org.autojs.autojs.ui.main.web;
 
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;

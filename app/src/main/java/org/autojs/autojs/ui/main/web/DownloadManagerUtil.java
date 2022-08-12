@@ -1,4 +1,4 @@
-package org.autojs.autojs.ui.widget;
+package org.autojs.autojs.ui.main.web;
 
 import android.app.DownloadManager;
 import android.content.Context;
@@ -19,7 +19,7 @@ public class DownloadManagerUtil {
      * @param desc 通知栏描述
      * @return
      */
-    public long download(String url, String title, String desc) {
+    public long download(String url, String title, String desc, String mimeType) {
         Uri uri = Uri.parse(url);
         DownloadManager.Request req = new DownloadManager.Request(uri);
         //设置WIFI下进行更新
@@ -32,8 +32,8 @@ public class DownloadManagerUtil {
         req.setTitle(title);
         //通知栏描述信息
         req.setDescription(desc);
-        //设置类型为.apk
-        req.setMimeType("application/vnd.android.package-archive");
+        //设置类型
+        req.setMimeType(mimeType);
         //获取下载任务ID
         DownloadManager dm = (DownloadManager) mContext.getSystemService(Context.DOWNLOAD_SERVICE);
         return dm.enqueue(req);

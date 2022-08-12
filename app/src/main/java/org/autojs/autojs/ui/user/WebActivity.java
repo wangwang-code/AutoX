@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import com.stardust.app.OnActivityResultDelegate;
 import org.autojs.autojs.R;
 import org.autojs.autojs.ui.BaseActivity;
-import org.autojs.autojs.ui.widget.EWebView;
+import org.autojs.autojs.ui.main.web.EWebView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;

@@ -31,5 +31,12 @@
     <string name="switch_fullscreen">切换全屏模式</string>
     <string name="text_licenses_other">非开源许可</string>
     <string name="switch_line_wrap">切换自动换行</string>
+    <string name="text_ignore_battery_optimizations">忽略电池优化</string>
+    <string name="tts_setting">TTS设置</string>
+    <string name="bookmark">书签</string>
+    <string name="browse_mode">浏览模式</string>
+    <string name="address_or_search">网址/搜索</string>
+    <string name="html_source">网页源码</string>
+    <string name="tts_engine_update">TTS引擎更新</string>
 
 </resources>

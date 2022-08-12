@@ -137,11 +137,10 @@ fun DrawerPage() {
                 Text(text = stringResource(R.string.text_issue_report))
             }
             CheckForUpdate()
-            TextButton(onClick = {
-                context.startActivity(PermissionsSettingsUtil.getAppDetailSettingIntent(context.packageName))
-            }) {
-                Text(text = stringResource(R.string.text_app_detail_settings))
-            }
+//            TextButton(onClick = {
+//                context.startActivity(PermissionsSettingsUtil.getAppDetailSettingIntent(context.packageName))
+//            }) {
+//                Text(text = stringResource(R.string.text_app_detail_settings))
         }
         Spacer(
             modifier = Modifier
@@ -208,7 +207,7 @@ private fun CheckForUpdate(model: DrawerViewModel = viewModel()) {
                     AndroidView(
                         factory = { context ->
                             TextView(context).apply {
-                                val content = model.githubReleaseInfo!!.body.trim()
+                                val content = model.githubReleaseInfo!!.body.trim().replace("\n","\n\n")
                                 val markdwon = Markwon.builder(context).build()
                                 markdwon.setMarkdown(this, content)
                             }

@@ -70,7 +70,7 @@ import org.autojs.autojs.ui.edit.toolbar.SearchToolbarFragment;
 import org.autojs.autojs.ui.edit.toolbar.SearchToolbarFragment_;
 import org.autojs.autojs.ui.edit.toolbar.ToolbarFragment;
 import org.autojs.autojs.ui.log.LogActivityKt;
-import org.autojs.autojs.ui.widget.EWebView;
+import org.autojs.autojs.ui.main.web.EWebView;
 import org.autojs.autojs.ui.widget.SimpleTextWatcher;
 
 import java.io.File;

@@ -8,7 +8,7 @@ import org.androidannotations.annotations.ViewById;
 import org.autojs.autojs.Pref;
 import org.autojs.autojs.R;
 import org.autojs.autojs.ui.BaseActivity;
-import org.autojs.autojs.ui.widget.EWebView;
+import org.autojs.autojs.ui.main.web.EWebView;
 
 /**
  * Created by Stardust on 2017/10/24.

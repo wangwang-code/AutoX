@@ -29,6 +29,7 @@ import com.stardust.autojs.runtime.api.Paddle;
 import com.stardust.autojs.runtime.api.Plugins;
 import com.stardust.autojs.runtime.api.Sensors;
 import com.stardust.autojs.runtime.api.SevenZip;
+import com.stardust.autojs.runtime.api.Speech;
 import com.stardust.autojs.runtime.api.Threads;
 import com.stardust.autojs.runtime.api.Timers;
 import com.stardust.autojs.core.accessibility.UiSelector;
@@ -201,6 +202,9 @@ public class ScriptRuntime {
     @ScriptVariable
     public final Paddle paddle;
 
+    @ScriptVariable
+    public final Speech speech;
+
     private Images images;
 
     private static WeakReference<Context> applicationContext;
@@ -235,6 +239,7 @@ public class ScriptRuntime {
         plugins = new Plugins(context, this);
         zips = new SevenZip();
         paddle = new Paddle();
+        speech = new Speech(context);
     }
 
     public void init() {
@@ -437,6 +442,7 @@ public class ScriptRuntime {
         ignoresException(timers::recycle);
         ignoresException(ui::recycle);
         ignoresException(paddle::release);
+        ignoresException(speech::destroy);
     }
 
     private void ignoresException(Runnable r) {

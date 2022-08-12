@@ -333,6 +333,15 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+        <receiver android:name="com.stardust.autojs.core.device.DeviceAdminReceiver" android:permission="android.permission.BIND_DEVICE_ADMIN"
+            android:exported="true">
+            <meta-data android:name="android.app.device_admin" android:resource="@xml/device_admin" />
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+                <action android:name="android.app.action.ACTION_PASSWORD_FAILED" />
+                <action android:name="android.app.action.ACTION_PASSWORD_SUCCEEDED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

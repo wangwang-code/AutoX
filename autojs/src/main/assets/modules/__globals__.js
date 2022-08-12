@@ -143,5 +143,5 @@ module.exports = function(runtime, global){
 
     global.zips = Object.create(runtime.zips);
     global.paddle = Object.create(runtime.paddle);
-
+    global.speech = Object.create(runtime.speech);
 }

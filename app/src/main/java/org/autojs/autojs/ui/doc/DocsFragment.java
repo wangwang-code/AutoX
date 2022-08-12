@@ -36,7 +36,7 @@ import org.autojs.autojs.ui.main.FloatingActionMenu;
 import org.autojs.autojs.ui.main.QueryEvent;
 import org.autojs.autojs.ui.main.ViewPagerFragment;
 import org.autojs.autojs.ui.widget.CallbackBundle;
-import org.autojs.autojs.ui.widget.EWebView;
+import org.autojs.autojs.ui.main.web.EWebView;
 import org.autojs.autojs.ui.widget.WebData;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -336,7 +336,7 @@ public class DocsFragment extends ViewPagerFragment implements BackPressedHandle
                     break;
                 case 3:
                     mEWebView.switchRescale();
-                    if (mEWebView.getIsRescale()) {
+                    if (mEWebView.getEnableRescale()) {
                         mWebViewTbs.getSettings().setLoadWithOverviewMode(true);
                         mWebViewTbs.getSettings().setUserAgentString(mWebData.userAgents[6]);
                     } else {
@@ -347,7 +347,7 @@ public class DocsFragment extends ViewPagerFragment implements BackPressedHandle
                     break;
                 case 4:
                     mEWebView.switchConsole();
-                    if (mEWebView.getIsConsole()) {
+                    if (mEWebView.getEnableConsole()) {
                         com.tencent.smtt.sdk.WebView.setWebContentsDebuggingEnabled(true);
                     } else {
                         com.tencent.smtt.sdk.WebView.setWebContentsDebuggingEnabled(false);
@@ -578,7 +578,7 @@ public class DocsFragment extends ViewPagerFragment implements BackPressedHandle
                     break;
                 case 3:
                     mEWebView.switchRescale();
-                    if (mEWebView.getIsRescale()) {
+                    if (mEWebView.getEnableRescale()) {
                         mWebView.getSettings().setLoadWithOverviewMode(true);
                         mWebView.getSettings().setUserAgentString(mWebData.userAgents[6]);
                     } else {
@@ -589,7 +589,7 @@ public class DocsFragment extends ViewPagerFragment implements BackPressedHandle
                     break;
                 case 4:
                     mEWebView.switchConsole();
-                    if (mEWebView.getIsConsole()) {
+                    if (mEWebView.getEnableConsole()) {
                         android.webkit.WebView.setWebContentsDebuggingEnabled(true);
                     } else {
                         android.webkit.WebView.setWebContentsDebuggingEnabled(false);
