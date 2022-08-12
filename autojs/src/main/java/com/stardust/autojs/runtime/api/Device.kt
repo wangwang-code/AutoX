@@ -40,28 +40,48 @@ import java.util.*
  */
 class Device(private val mContext: Context) {
     companion object {
+        @JvmStatic
         val width = ScreenMetrics.getDeviceScreenWidth()
+        @JvmStatic
         val height = ScreenMetrics.getDeviceScreenHeight()
-        val buildId = Build.ID
-        val buildDisplay = Build.DISPLAY
-        val product = Build.PRODUCT
-        val board = Build.BOARD
-        val brand = Build.BRAND
-        val device = Build.DEVICE
-        val model = Build.MODEL
-        val bootloader = Build.BOOTLOADER
-        val hardware = Build.HARDWARE
-        val fingerprint = Build.FINGERPRINT
+        @JvmStatic
+        val buildId: String = Build.ID
+        @JvmStatic
+        val buildDisplay: String = Build.DISPLAY
+        @JvmStatic
+        val product: String = Build.PRODUCT
+        @JvmStatic
+        val board: String = Build.BOARD
+        @JvmStatic
+        val brand: String = Build.BRAND
+        @JvmStatic
+        val device: String = Build.DEVICE
+        @JvmStatic
+        val model: String = Build.MODEL
+        @JvmStatic
+        val bootloader: String = Build.BOOTLOADER
+        @JvmStatic
+        val hardware: String = Build.HARDWARE
+        @JvmStatic
+        val fingerprint: String = Build.FINGERPRINT
+        @JvmStatic
         val sdkInt = Build.VERSION.SDK_INT
-        val incremental = Build.VERSION.INCREMENTAL
-        val release = Build.VERSION.RELEASE
+        @JvmStatic
+        val incremental: String = Build.VERSION.INCREMENTAL
+        @JvmStatic
+        val release: String = Build.VERSION.RELEASE
+        @JvmStatic
         var baseOS: String? = null
+        @JvmStatic
         var securityPatch: String? = null
-        val codename = Build.VERSION.CODENAME
+        @JvmStatic
+        val codename: String = Build.VERSION.CODENAME
 
         @SuppressLint("HardwareIds")
-        val serial = Build.SERIAL
-        private const val FAKE_MAC_ADDRESS = "02:00:00:00:00:00"
+        @JvmStatic
+        val serial: String = Build.SERIAL
+        @JvmStatic
+        val FAKE_MAC_ADDRESS = "02:00:00:00:00:00"
 
         @get:Throws(SocketException::class)
         private val macByInterface: String?

@@ -167,7 +167,9 @@ class Speech(context: Context) : UtteranceProgressListener() {
 
     @JavascriptInterface
     fun gotoSettings() {
-        mContext.startActivity(Intent("com.android.settings.TTS_SETTINGS"))
+        var intent0 = Intent("com.android.settings.TTS_SETTINGS")
+        intent0.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        mContext.startActivity(intent0)
     }
 
     @JavascriptInterface
