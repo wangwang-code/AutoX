@@ -292,7 +292,7 @@ open class EWebView : FrameLayout, SwipeRefreshLayout.OnRefreshListener,
                 Pref.setWebData(gson.toJson(mWebData))
             }
             super.onPageStarted(view, url, favicon)
-            with(mWebView.settings) {
+            with(view.settings) {
                 loadsImagesAutomatically = false
                 userAgentString = mWebData.userAgent
             }
@@ -309,7 +309,7 @@ open class EWebView : FrameLayout, SwipeRefreshLayout.OnRefreshListener,
 
         override fun onPageFinished(view: com.tencent.smtt.sdk.WebView, url: String) {
             super.onPageFinished(view, url)
-            with(mWebView.settings) {
+            with(view.settings) {
                 loadsImagesAutomatically = true
             }
             view.evaluateJavascript(
@@ -495,7 +495,7 @@ open class EWebView : FrameLayout, SwipeRefreshLayout.OnRefreshListener,
                 Pref.setWebData(gson.toJson(mWebData))
             }
             super.onPageStarted(view, url, favicon)
-            with(mWebView.settings) {
+            with(view.settings) {
                 loadsImagesAutomatically = false
                 userAgentString = mWebData.userAgent
             }
@@ -513,7 +513,7 @@ open class EWebView : FrameLayout, SwipeRefreshLayout.OnRefreshListener,
 
         override fun onPageFinished(view: android.webkit.WebView, url: String) {
             super.onPageFinished(view, url)
-            with(mWebView.settings) {
+            with(view.settings) {
                 loadsImagesAutomatically = true
             }
             view.evaluateJavascript(
