@@ -61,13 +61,3 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: 'build/app/signed/**'
-      - name: setup aliyun oss
-        uses: manyuanrong/setup-ossutil@master
-        with:
-          endpoint: oss-cn-hangzhou.aliyuncs.com
-          access-key-id: ${{ secrets.OSS_KEY_ID }}
-          access-key-secret: ${{ secrets.OSS_KEY_SECRET }}
-      - name: mkdir aliyun
-        run: ossutil mkdir oss://autoxjsoss/autoxjs/${{ steps.vars.outputs.short_ref }}
-      - name: cp files to aliyun
-        run: ossutil cp -rf build/app/signed oss://autoxjsoss/autoxjs/${{ steps.vars.outputs.short_ref }}
