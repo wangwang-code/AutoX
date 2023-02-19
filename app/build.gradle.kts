@@ -321,6 +321,6 @@ dependencies {
     implementation("androidx.viewpager2:viewpager2:1.1.0-beta01")
     implementation("io.coil-kt:coil-compose:2.0.0-rc03")
     // opencc
-    implementation 'com.github.qichuan:android-opencc:1.2.0'
-    implementation 'androidx.appcompat:appcompat:1.3.0'
+    implementation("com.github.qichuan:android-opencc:1.2.0")
+    implementation("androidx.appcompat:appcompat:1.3.0")
 }
